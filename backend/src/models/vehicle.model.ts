@@ -36,6 +36,7 @@ export const vehicleSchema = new mongoose.Schema(
         "Peugeot",
         "Porsche",
         "Renault",
+        "Toyota"
       ],
     },
     model: {
@@ -131,5 +132,14 @@ export const vehicleSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+vehicleSchema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: (_, ret) => {
+    ret.id = ret._id;
+    delete ret._id;
+  },
+});
 
 export const VehicleModel = mongoose.model("Vehicle", vehicleSchema);

@@ -7,7 +7,9 @@ const CONN_STRING = "mongodb://admin:password@localhost:27017/car_dealership?aut
 const connectDB = async () => {
   try {
     console.log(process.env.MONGO_URI)
-    const conn = await mongoose.connect(CONN_STRING, {});
+    const conn = await mongoose.connect(CONN_STRING, {
+      
+    });
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {

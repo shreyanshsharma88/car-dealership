@@ -1,15 +1,12 @@
 import { Request, Response } from "express";
-import { createUser, findUserByEmail } from "../repository/user.repository";
+import {
+  createUser,
+  findUserByEmail,
+  findUserById,
+} from "../repository/user.repository";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-
-const generateToken = (userId: string): string => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET || "fallback_secret", {
-    expiresIn: "30d",
-  });
-};
-
-export { generateToken };
+import { generateToken, verifyToken } from "../utils/jwt";
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -24,7 +21,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     const user = await createUser({
       username,
       email,
-      password: password, 
+      password: password,
     });
 
     res.status(201).json({
@@ -36,6 +33,10 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     return;
   } catch (error) {
     console.error("Signup error:", error);
+    if (error instanceof Error && error.name === "ValidationError") {
+      res.status(400).json({ message: error.message });
+      return;
+    }
     res.status(500).json({ message: "Server error" });
     return;
   }
@@ -60,6 +61,40 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     return;
   } catch (error) {
     console.error("Login error:", error);
+    if (error instanceof Error && error.name === "ValidationError") {
+      res.status(400).json({ message: error.message });
+      return;
+    }
+    res.status(500).json({ message: "Server error" });
+    return;
+  }
+};
+
+export const getUserProfile = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const token = req.headers.token as string | undefined;
+    if (!token) {
+      res.status(401).json({ message: "No token provided" });
+      return;
+    }
+
+    const data = verifyToken(token);
+    if (!data) {
+      res.status(401).json({ message: "Invalid token" });
+      return;
+    }
+    const userId = (data as jwt.JwtPayload).id;
+    const user = await findUserById(userId);
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+    res.json(user).status(200);
+  } catch (error) {
+    console.error("Get user profile error:", error);
     res.status(500).json({ message: "Server error" });
     return;
   }

@@ -3,7 +3,7 @@ import { findVehicles } from "../repository/vehicle.repository";
 
 export const getVehicles = async (req: Request, res: Response) => {
   try {
-    const { make, model, year, minPrice, maxPrice } = req.query;
+    const { make, model, year, minPrice, maxPrice, bodyType } = req.query;
 
     const filter: any = {};
 
@@ -17,6 +17,9 @@ export const getVehicles = async (req: Request, res: Response) => {
 
     if (year) {
       filter.year = Number(year);
+    }
+    if (bodyType) {
+      filter.bodyType = bodyType;
     }
 
     if (minPrice || maxPrice) {

@@ -38,4 +38,13 @@ export const inquirySchema = new mongoose.Schema({
     timestamps: true 
   });
 
+  inquirySchema.set('toJSON', {
+    virtuals: true,
+    versionKey: false,
+    transform: (_, ret) => {
+      ret.id = ret._id;
+      delete ret._id;
+    },
+  });
+
 export const InquiryModel = mongoose.model('Inquiry', inquirySchema);
