@@ -1,0 +1,118 @@
+import mongoose from "mongoose";
+import { VehicleModel } from "../models/vehicle.model";
+import connectDB from "../connection";
+
+const seedVehicles = [
+  {
+    make: "Toyota",
+    model: "Camry",
+    year: 2022,
+    price: 25000,
+    originalPrice: 28000,
+    mileage: 15000,
+    condition: "Used",
+    bodyType: "Sedan",
+    color: "Silver",
+    transmission: "Automatic",
+    fuelType: "Petrol",
+    description: "A reliable and fuel-efficient sedan.",
+    VIN: "12345678901234567",
+    status: "Available",
+    isNew: false,
+  },
+  {
+    make: "Honda",
+    model: "CR-V",
+    year: 2023,
+    price: 32000,
+    originalPrice: 33000,
+    mileage: 5000,
+    condition: "New",
+    bodyType: "SUV",
+    color: "Blue",
+    transmission: "Automatic",
+    fuelType: "Petrol",
+    description: "A spacious and versatile SUV.",
+    VIN: "23456789012345678",
+    status: "Available",
+    isNew: true,
+  },
+  {
+    make: "Ford",
+    model: "F-150",
+    year: 2021,
+    price: 45000,
+    originalPrice: 50000,
+    mileage: 25000,
+    condition: "Used",
+    bodyType: "Truck",
+    color: "Black",
+    transmission: "Automatic",
+    fuelType: "Petrol",
+    description: "A powerful and rugged truck.",
+    VIN: "34567890123456789",
+    status: "Available",
+    isNew: false,
+  },
+  {
+    make: "BMW",
+    model: "X5",
+    year: 2022,
+    price: 60000,
+    originalPrice: 65000,
+    mileage: 12000,
+    condition: "Used",
+    bodyType: "SUV",
+    color: "White",
+    transmission: "Automatic",
+    fuelType: "Petrol",
+    description: "A luxurious and powerful SUV.",
+    VIN: "45678901234567890",
+    status: "Available",
+    isNew: false,
+  },
+  {
+    make: "Audi",
+    model: "A4",
+    year: 2023,
+    price: 48000,
+    originalPrice: 50000,
+    mileage: 3000,
+    condition: "New",
+    bodyType: "Sedan",
+    color: "Gray",
+    transmission: "Automatic",
+    fuelType: "Petrol",
+    description: "A stylish and modern sedan.",
+    VIN: "56789012345678901",
+    status: "Available",
+    isNew: true,
+  },
+  {
+    make: "Mercedes-Benz",
+    model: "C-Class",
+    year: 2020,
+    price: 40000,
+    originalPrice: 45000,
+    mileage: 30000,
+    condition: "Used",
+    bodyType: "Sedan",
+    color: "Red",
+    transmission: "Automatic",
+    fuelType: "Diesel",
+    description: "A classic luxury sedan.",
+    VIN: "67890123456789012",
+    status: "Sold",
+    isNew: false,
+  },
+];
+
+const seedDB = async () => {
+  await connectDB();
+  await VehicleModel.deleteMany({});
+  await VehicleModel.insertMany(seedVehicles);
+  console.log("Database seeded!");
+  mongoose.connection.close();
+};
+
+seedDB();

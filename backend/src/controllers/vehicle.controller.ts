@@ -1,0 +1,42 @@
+import { Request, Response } from "express";
+import { findVehicles } from "../repository/vehicle.repository";
+
+export const getVehicles = async (req: Request, res: Response) => {
+  try {
+    const { make, model, year, minPrice, maxPrice } = req.query;
+
+    const filter: any = {};
+
+    if (make) {
+      filter.make = make;
+    }
+
+    if (model) {
+      filter.model = model;
+    }
+
+    if (year) {
+      filter.year = Number(year);
+    }
+
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) {
+        filter.price.$gte = Number(minPrice);
+      }
+      if (maxPrice) {
+        filter.price.$lte = Number(maxPrice);
+      }
+    }
+
+    const vehicles = await findVehicles(filter);
+
+    res.status(200).json(vehicles);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "An unknown error occurred" });
+    }
+  }
+};

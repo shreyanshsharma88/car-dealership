@@ -3,9 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import connectDB from "./connection";
-import { InquiryModel, inquirySchema } from "./models/model.inquiry";
-import { VehicleModel, vehicleSchema } from "./models/model.vehicle";
-import { UserModel, userSchema } from "./models/model.user";
+import vehicleRoutes from "./routes/vehicle.routes";
+import userRoutes from './routes/user.routes';
 dotenv.config();
 
 const app = express();
@@ -22,6 +21,9 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use("/api", vehicleRoutes);
+app.use('/api/auth', userRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
