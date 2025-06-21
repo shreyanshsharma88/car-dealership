@@ -1,21 +1,20 @@
 import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Stack,
-  Button,
-  Chip,
-  IconButton,
-} from "@mui/material";
-import {
+  ArrowOutward,
+  Bookmark,
   DirectionsCar,
   LocalGasStation,
   Settings,
-  BookmarkBorder,
-  Bookmark,
-  ArrowOutward,
 } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import type { VehicleCardProps } from "../../utils";
 
@@ -25,16 +24,36 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
   make,
   model,
   year,
-  //   description,
+  description,
   mileage,
   fuelType,
   transmission,
   price,
   originalPrice,
   onViewDetails,
-  onBookmarkToggle,
-  isBookmarked = false,
+
+  mode = "light",
 }) => {
+  if (mode === "dark") {
+    return (
+      <DarkVehicleCard
+        {...{
+          _id,
+          imageUrl,
+          make,
+          model,
+          year,
+          mileage,
+          fuelType,
+          transmission,
+          price,
+          originalPrice,
+          onViewDetails,
+          description,
+        }}
+      />
+    );
+  }
   const isGreatPrice = originalPrice && price < originalPrice;
 
   return (
@@ -79,26 +98,19 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
             }}
           />
         )}
-        {onBookmarkToggle && (
-          <IconButton
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              bgcolor: "rgba(255,255,255,0.7)",
-              "&:hover": {
-                bgcolor: "rgba(255,255,255,0.9)",
-              },
-            }}
-            onClick={() => onBookmarkToggle(_id, !isBookmarked)}
-          >
-            {isBookmarked ? (
-              <Bookmark color="primary" />
-            ) : (
-              <BookmarkBorder color="action" />
-            )}
-          </IconButton>
-        )}
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            bgcolor: "rgba(255,255,255,0.7)",
+            "&:hover": {
+              bgcolor: "rgba(255,255,255,0.9)",
+            },
+          }}
+        >
+          <Bookmark color="primary" />
+        </IconButton>
       </Box>
 
       <CardContent sx={{ p: 2 }}>
@@ -169,6 +181,174 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           </Button>
         </Stack>
       </CardContent>
+    </Card>
+  );
+};
+
+const DarkVehicleCard: React.FC<Omit<VehicleCardProps, "mode">> = ({
+  _id,
+  imageUrl,
+  make,
+  model,
+  year,
+  description,
+  mileage,
+  fuelType,
+  transmission,
+  price,
+  originalPrice,
+  onViewDetails,
+}) => {
+  const isSale = originalPrice && price < originalPrice; 
+
+  return (
+    <Card
+      sx={{
+        borderRadius: 3,
+        overflow: "hidden",
+        boxShadow: 3,
+        width: {
+          xs: "calc(100% - 16px)",
+          sm: 450,
+          md: 500,
+        },
+        flexShrink: 0,
+        m: 1,
+        bgcolor: "secondary.contrastText",
+        color: "#fff",
+        height: '300px'
+      }}
+    >
+      <Stack direction="row" sx={{ height: { xs: 200, sm: '100%' } }}>
+        {" "}
+        <Box sx={{ flex: "1 1 40%", position: "relative" }}>
+          <Box
+            component="img"
+            src={imageUrl}
+            alt={`${make} ${model}`}
+            sx={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+          {isSale && (
+            <Chip
+              label="Sale"
+              size="small"
+              sx={{
+                position: "absolute",
+                top: 12,
+                left: 12,
+                bgcolor: "#8b00ff",
+                color: "#fff",
+                fontWeight: "bold",
+              }}
+            />
+          )}
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              bgcolor: "rgba(255,255,255,0.2)",
+              "&:hover": {
+                bgcolor: "rgba(255,255,255,0.4)",
+              },
+              color: "#fff",
+            }}
+          >
+            <Bookmark sx={{ color: "#fff" }} />
+          </IconButton>
+        </Box>
+        <CardContent
+          sx={{
+            flex: "1 1 50%",
+            p: { xs: 2, sm: 3 },
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <Stack gap={1}>
+            <Typography variant="h6" fontWeight="bold" color="#fff" sx={{
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              maxWidth: "200px",
+            }}>
+              {make} {model} – {year}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="#ccc"
+              sx={{
+                minHeight: "36px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {description.split(" ").slice(0, 8).join(" ") +
+                (description.split(" ").length > 8 ? "..." : "")}
+            </Typography>
+
+            <Stack gap={1}>
+              <Stack direction="row" alignItems="center" gap={1}>
+                <DirectionsCar sx={{ color: "#aaa", fontSize: 18 }} />
+                <Typography variant="body2" color="#ccc">
+                  {mileage.toLocaleString()} Miles
+                </Typography>
+              </Stack>
+              <Stack direction="row" alignItems="center" gap={1}>
+                <LocalGasStation sx={{ color: "#aaa", fontSize: 18 }} />
+                <Typography variant="body2" color="#ccc">
+                  {fuelType}
+                </Typography>
+              </Stack>
+              <Stack direction="row" alignItems="center" gap={1}>
+                <Settings sx={{ color: "#aaa", fontSize: 18 }} />
+                <Typography variant="body2" color="#ccc">
+                  {transmission}
+                </Typography>
+              </Stack>
+            </Stack>
+          </Stack>
+
+          <Stack sx={{ mt: 2 }}>
+            {originalPrice && (
+              <Typography
+                variant="body2"
+                color="#aaa"
+                sx={{ textDecoration: "line-through" }}
+              >
+                ${originalPrice.toLocaleString()}
+              </Typography>
+            )}
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography variant="h5" fontWeight="bold" color="#fff">
+                ${price.toLocaleString()}
+              </Typography>
+              <Button
+                variant="text"
+                onClick={() => onViewDetails(_id)}
+                endIcon={<ArrowOutward />}
+                sx={{
+                  textTransform: "none",
+                  color: "#8b00ff",
+                  fontWeight: "bold",
+                }}
+              >
+                Details
+              </Button>
+            </Stack>
+          </Stack>
+        </CardContent>
+      </Stack>
     </Card>
   );
 };

@@ -1,22 +1,30 @@
-import { ArrowOutward } from "@mui/icons-material";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { useViewPort } from "../../Hooks";
-import { dummyVehicles } from "../../utils";
-import { GenericCarousel } from "./VehicleCarousel";
-import { VehicleCard } from "./VehicleCard";
-export const Vehicles = () => {
-  const { isMobile } = useViewPort();
-  const [selectedCarType, setSelectedCarType] = useState<TCarType>("In Stock");
+import { ArrowOutward } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import { carBrands } from "../../utils";
 
+type TOptions =
+  | "New Cars for sale"
+  | "Used Cars for sale"
+  | "Browse by type"
+  | "Browse by brand";
+const options: TOptions[] = [
+  "New Cars for sale",
+  "Used Cars for sale",
+  "Browse by type",
+  "Browse by brand",
+];
+export const ShopYourWay = () => {
+  const [selected, setSelected] = useState<TOptions>("New Cars for sale");
+  const { isMobile } = useViewPort();
   return (
     <Stack
       direction="column"
       gap={isMobile ? 2 : 3}
       justifyContent="center"
       alignItems="center"
-     
     >
       <Stack
         direction="row"
@@ -31,11 +39,11 @@ export const Vehicles = () => {
           textAlign={isMobile ? "center" : "left"}
           flex={isMobile ? "1 1 100%" : "initial"}
         >
-          Explore All Vehicles
+          Shop Box Car your way
         </Typography>
         <Button
           variant="text"
-          onClick={() => toast.error("No vehicles to show currently")}
+          onClick={() => toast.error("Not available")}
           endIcon={<ArrowOutward />}
           sx={{
             fontSize: isMobile ? "0.75rem" : "initial",
@@ -43,7 +51,7 @@ export const Vehicles = () => {
             py: isMobile ? 0.5 : 0,
           }}
         >
-          Show All Brands{" "}
+          View All
         </Button>
       </Stack>
       <Stack
@@ -51,17 +59,16 @@ export const Vehicles = () => {
         borderBottom="1px solid gray"
         justifyContent="start"
         width="100%"
-        gap={2}
+        gap={4}
       >
-        {CarTypes.map((type) => (
+        {options.map((type) => (
           <Stack
             py={1}
             key={type}
-            onClick={() => setSelectedCarType(type)}
+            onClick={() => setSelected(type)}
             sx={{
-              borderBottom: selectedCarType === type ? "2px solid" : "none",
-              borderColor:
-                selectedCarType === type ? "info.main" : "transparent",
+              borderBottom: selected === type ? "2px solid" : "none",
+              borderColor: selected === type ? "info.main" : "transparent",
               cursor: "pointer",
             }}
           >
@@ -69,15 +76,15 @@ export const Vehicles = () => {
           </Stack>
         ))}
       </Stack>
-
-      <GenericCarousel
-        items={dummyVehicles}
-        RenderComponent={VehicleCard}
-      />
+      <Grid container spacing={2}>
+        {carBrands.map(brand => (
+            <Grid key={brand} size={{
+                xs:2
+            }}>
+                <Typography variant="body2">{brand}</Typography>
+            </Grid>
+        ))}
+      </Grid>
     </Stack>
   );
 };
-
-type TCarType = "In Stock" | "New Cars" | "Used Cars" | "All";
-
-const CarTypes: TCarType[] = ["In Stock", "New Cars", "Used Cars"];

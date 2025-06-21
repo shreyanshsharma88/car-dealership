@@ -26,7 +26,9 @@ export const customTheme = () => {
         dark: "#0F172A",
       },
       secondary:{
-        main:'#EEF1FB'
+        main:'#EEF1FB',
+        dark: '#050B20',
+        contrastText:'#14132A'
       }
     },
     components: {

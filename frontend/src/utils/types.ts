@@ -21,4 +21,32 @@ export interface VehicleCardProps {
   onViewDetails: (vehicleId: string) => void;
   onBookmarkToggle?: (vehicleId: string, isBookmarked: boolean) => void;
   isBookmarked?: boolean;
+  mode?: "light" | "dark";
+}
+
+export interface IFooterBoxes {
+  label: string;
+  description: string;
+  img: string;
+  bgColor: string;
+  buttonColor: string;
+  onButtonClick?: () => void;
+}
+
+export interface IArticleCardProps {
+  id: string;
+  imageUrl: string;
+  category?: string;
+  author: string;
+  date: string;
+  title: string;
+}
+
+
+export interface Testimonial {
+  name: string;
+  title: string;
+  rating: number;
+  message: string;
+  image: string;
 }

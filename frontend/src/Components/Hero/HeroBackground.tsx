@@ -40,6 +40,7 @@ export const HeroBackground = () => {
         gap={isMobile ? 2 : 4} 
         justifyContent="center"
         alignItems="center"
+        width="100%"
         position={"absolute"}
         px={isMobile ? 2 : 0} 
         sx={{
@@ -64,7 +65,7 @@ export const HeroBackground = () => {
           gap={isMobile ? 1 : 3}
           justifyContent="center"
           alignItems="center"
-          width="100%"
+          width="70%"
           flexWrap="wrap" 
         >
           {FeaturedCarModels.map((model) => {
@@ -103,12 +104,13 @@ const SearchCars = () => {
       direction="column"
       gap={2}
       width="100%"
+      maxWidth={930}
       justifyContent="center"
       alignItems="center"
       zIndex={100}
       px={isMobile ? 2 : 0} 
     >
-      <Stack direction="row" gap={isMobile ? 1 : 3}> 
+      <Stack  direction="row" gap={isMobile ? 1 : 3}> 
         {CarTypeOptions.map((type) => (
           <Stack
             key={type}
@@ -177,7 +179,7 @@ const CarSearchBar = () => {
       width="100%"
       gap={isMobile ? 1 : 2} 
       px={isMobile ? 1.5 : 2.5}
-      py={isMobile ? 1.5 : 2} 
+      py={1.5 } 
     >
       {SearchOptions.map((option) => (
         <Box key={option.value} width={isMobile ? '100%' : 'auto'}> 

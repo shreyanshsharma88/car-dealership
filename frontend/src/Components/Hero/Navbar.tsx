@@ -98,7 +98,7 @@ export const Navbar = ({
 
                 {hasOptions && (
                   <Menu
-                    anchorEl={anchorEls[option.label]}
+                    anchorEl={anchorEls[option.label] }
                     open={!!open}
                     onClose={() => handleClose(option.label)}
                   >

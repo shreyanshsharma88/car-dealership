@@ -3,21 +3,22 @@ import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useViewPort } from "../../Hooks";
-import { dummyVehicles } from "../../utils";
-import { GenericCarousel } from "./VehicleCarousel";
-import { VehicleCard } from "./VehicleCard";
-export const Vehicles = () => {
-  const { isMobile } = useViewPort();
-  const [selectedCarType, setSelectedCarType] = useState<TCarType>("In Stock");
+import { dummyVehicles, type VehicleCardProps } from "../../utils";
+import { VehicleCard } from "../Vehicles";
+import { GenericCarousel } from "../Vehicles/VehicleCarousel";
 
+type TMake = "Audi" | "Ford" | "Mercedes";
+const StaticMakes: TMake[] = ["Audi", "Ford", "Mercedes"];
+
+const DarkModeVehicleCard: React.FC<VehicleCardProps> = (props) => {
+  return <VehicleCard {...props} mode="dark" />;
+};
+export const PopularMakes = () => {
+  const [selectedMake, setSelectedMake] = useState<TMake>("Audi");
+
+  const { isMobile } = useViewPort();
   return (
-    <Stack
-      direction="column"
-      gap={isMobile ? 2 : 3}
-      justifyContent="center"
-      alignItems="center"
-     
-    >
+    <Stack width="100%" gap={2}>
       <Stack
         direction="row"
         justifyContent={isMobile ? "center" : "space-between"}
@@ -25,17 +26,22 @@ export const Vehicles = () => {
         width="100%"
         flexWrap="wrap"
         gap={isMobile ? 1 : 0}
+        sx={{
+          ".MuiTypography-root": {
+            color: "#fff",
+          },
+        }}
       >
         <Typography
           variant={isMobile ? "h5" : "h3"}
           textAlign={isMobile ? "center" : "left"}
           flex={isMobile ? "1 1 100%" : "initial"}
         >
-          Explore All Vehicles
+          Explore Our Premium Brands
         </Typography>
         <Button
           variant="text"
-          onClick={() => toast.error("No vehicles to show currently")}
+          onClick={() => toast.error("No popular makes to show currently")}
           endIcon={<ArrowOutward />}
           sx={{
             fontSize: isMobile ? "0.75rem" : "initial",
@@ -52,32 +58,32 @@ export const Vehicles = () => {
         justifyContent="start"
         width="100%"
         gap={2}
+        sx={{
+          ".MuiTypography-root": {
+            color: "#fff",
+          },
+        }}
       >
-        {CarTypes.map((type) => (
+        {StaticMakes.map((make) => (
           <Stack
             py={1}
-            key={type}
-            onClick={() => setSelectedCarType(type)}
+            key={make}
+            onClick={() => setSelectedMake(make)}
             sx={{
-              borderBottom: selectedCarType === type ? "2px solid" : "none",
-              borderColor:
-                selectedCarType === type ? "info.main" : "transparent",
+              borderBottom: selectedMake === make ? "2px solid" : "none",
+              borderColor: selectedMake === make ? "info.main" : "transparent",
               cursor: "pointer",
             }}
           >
-            <Typography>{type}</Typography>
+            <Typography>{make}</Typography>
           </Stack>
         ))}
       </Stack>
-
       <GenericCarousel
+        RenderComponent={DarkModeVehicleCard}
         items={dummyVehicles}
-        RenderComponent={VehicleCard}
+        mode="dark"
       />
     </Stack>
   );
 };
-
-type TCarType = "In Stock" | "New Cars" | "Used Cars" | "All";
-
-const CarTypes: TCarType[] = ["In Stock", "New Cars", "Used Cars"];

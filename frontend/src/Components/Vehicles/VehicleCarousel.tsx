@@ -6,10 +6,12 @@ import { useViewPort } from "../../Hooks";
 interface GenericCarouselProps<T> {
   items: T[];
   RenderComponent: React.ComponentType<T>;
+  mode?: "light" | "dark";
 }
 
 export function GenericCarousel<T extends object>({
   items,
+  mode = "light",
   RenderComponent,
 }: GenericCarouselProps<T>) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -62,10 +64,18 @@ export function GenericCarousel<T extends object>({
         ))}
       </Stack>
       <Stack direction="row" spacing={1}>
-        <IconButton onClick={scrollLeft} size="large">
+        <IconButton
+          sx={{ color: mode === "dark" ? "#fff" : "inherit" }}
+          onClick={scrollLeft}
+          size="large"
+        >
           <KeyboardArrowLeft fontSize="inherit" />
         </IconButton>
-        <IconButton onClick={scrollRight} size="large">
+        <IconButton
+          sx={{ color: mode === "dark" ? "#fff" : "inherit" }}
+          onClick={scrollRight}
+          size="large"
+        >
           <KeyboardArrowRight fontSize="inherit" />
         </IconButton>
       </Stack>

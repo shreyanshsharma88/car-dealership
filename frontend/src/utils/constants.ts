@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import type { TCarType, VehicleCardProps } from "./types";
+import type { IArticleCardProps, TCarType, Testimonial, VehicleCardProps } from "./types";
 
 export const NavbarStaticOptions = [
   {
@@ -306,3 +306,100 @@ export const WhyUs = [
     img: "/public/assets/images/f4.svg.svg",
   },
 ]
+
+
+export const carBrands = [
+  "Ford Cars",
+  "Honda Cars",
+  "Hyundai Cars",
+  "Infiniti Cars",
+  "Jaguar Cars",
+  "Jeep Cars",
+  "Chrysler Cars",
+  "Citroen Cars",
+  "Cupra Cars",
+  "Dacia Cars",
+  "DS Cars",
+  "Fiat Cars",
+  "Land Rover Cars",
+  "Lexus Cars",
+  "Mercedes-Benz Cars",
+  "Mazda Cars",
+  "MG Cars",
+  "Kia Cars",
+  "Abarth Cars",
+  "Romeo Cars",
+  "Audi Cars",
+  "Bentley Cars",
+  "BMW Cars",
+  "Chevrolet Cars",
+  "Mini Cars",
+  "Mitsubishi Cars",
+  "Nissan Cars",
+  "Peugeot Cars",
+  "Porsche Cars",
+  "Renault Cars"
+];
+
+export const footerBoxes = [
+  {
+    label: 'Are you Looking for a car?',
+    description: "We are committed to providing our customers with exceptional service.",
+    img: "/public/assets/images/electric-car.svg.svg",
+    bgColor: "#e9f2fe",
+    buttonColor: 'info.main'
+  },
+  {
+    label: 'Do you want to sell a Car?',
+    description: "We are committed to providing our customers with exceptional service.",
+    img: "/public/assets/images/electric-car2.svg fill.svg",
+    bgColor:"#fae8f3",
+    buttonColor: '#000'
+  }
+]
+
+export const dummyArticles: IArticleCardProps[] = [
+  {
+    id: "article-001",
+    imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
+    category: "News",
+    author: "Admin",
+    date: "June 20, 2025",
+    title: "Mini Cooper S 2025 Unveiled: A Closer Look at the Future of Compact Cars",
+  },
+  {
+    id: "article-002",
+    imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
+    category: "Review",
+    author: "Jane Doe",
+    date: "June 18, 2025",
+    title: "First Drive: Experiencing the Nimble Handling of the New Mini Cooper",
+  },
+  {
+    id: "article-003",
+    imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
+    category: "Tech",
+    author: "Tech Enthusiast",
+    date: "June 15, 2025",
+    title: "Innovative Infotainment: Inside the Mini Cooper's Next-Gen Tech Suite",
+  },
+
+];
+
+export const testimonialData: Testimonial[]  = [
+  {
+    name: 'Ali Tufan',
+    title: 'Designer',
+    rating: 5,
+    message:
+      'I’d suggest Macklin Motors Nissan Glasgow South to a friend because I had great service from my salesman Patrick and all of the team.',
+    image: 'https://randomuser.me/api/portraits/men/32.jpg', // Replace with your own image
+  },
+  {
+    name: 'Samantha Lee',
+    title: 'Developer',
+    rating: 4,
+    message: 'Really satisfied with the support. Highly recommend the team!',
+    image: 'https://randomuser.me/api/portraits/women/45.jpg',
+  },
+];

@@ -6,28 +6,39 @@ import { Hero } from "./Hero";
 import { PopularMakesContainer } from "./PopularMakes";
 import { PremiumBrands } from "./PremiumBrands";
 import { Vehicles } from "./Vehicles";
+import { BlogContainer } from "./Blog";
+import Footer from "./Footer";
 
 export const Render = () => {
   const { isMobile } = useViewPort();
   return (
-    <Stack direction="column">
+    <Stack direction="column" position="relative">
       <Stack minHeight={isMobile ? "100dvh" : "80dvh"}>
         <Hero />
       </Stack>
       <Stack
+        position="absolute"
+        top={isMobile ? "100dvh" : "80dvh"}
+        left={0}
+        width="100%"
+        height="88.5%"
+        bgcolor="primary.dark"
+        zIndex={0}
+      />
+      1
+      <Stack
         sx={{
-          borderTopLeftRadius: "40px",
-          borderTopRightRadius: "40px",
+          borderRadius:isMobile ? 0: "60px",
         }}
+        py={isMobile ? 4 : 10}
         mt={isMobile ? 0 : -10}
-        zIndex={10}
-        gap={isMobile ? 2 : 6}
+        gap={isMobile ? 2 : 10}
+        zIndex={1100000}
+        overflow="hidden"
+        bgcolor="background.default"
+        pb={isMobile ? 2 : 10}
       >
         <Stack
-          sx={{
-            borderTopLeftRadius: "40px",
-            borderTopRightRadius: "40px",
-          }}
           width="100%"
           height={isMobile ? "100%" : "55dvh"}
           justifyContent="center"
@@ -38,15 +49,16 @@ export const Render = () => {
             <PremiumBrands />
           </GutteredContainer>
         </Stack>
+
         <GutteredContainer>
           <Vehicles />
         </GutteredContainer>
         <DetailsContainer />
         <Divider />
-        <GutteredContainer>
-          <PopularMakesContainer />
-        </GutteredContainer>
+        <PopularMakesContainer />
+        <BlogContainer />
       </Stack>
+        <Footer/>
     </Stack>
   );
 };
