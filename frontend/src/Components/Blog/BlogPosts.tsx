@@ -53,6 +53,7 @@ export const BlogPosts = () => {
         width="100%"
         justifyContent="space-between"
         alignItems='center'
+        gap={1}
       >
         {dummyArticles.map((article) => (
           <ArticleCard key={article.title} {...article} />

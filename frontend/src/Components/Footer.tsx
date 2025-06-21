@@ -2,7 +2,6 @@ import { Facebook, Instagram, LinkedIn, Twitter } from "@mui/icons-material";
 import {
     Box,
     Button,
-    Divider,
     Grid,
     IconButton,
     Stack,
@@ -58,7 +57,7 @@ const socialIcons = [Facebook, Twitter, Instagram, LinkedIn];
 export default function Footer() {
     const {isDesktop} = useViewPort()
   return (
-    <Stack alignItems='center' zIndex={100} sx={{ color: "white", py:isDesktop ? 15 : 4 }}>
+    <Stack p={2} alignItems='center' zIndex={100} sx={{ color: "white", py:isDesktop ? 15 : 4 }}>
       <Stack width={isDesktop ? '70%' : '100%'}  alignSelf='center' gap={4}>
         <Grid
           container

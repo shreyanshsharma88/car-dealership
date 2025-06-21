@@ -21,16 +21,14 @@ export const Render = () => {
         top={isMobile ? "100dvh" : "80dvh"}
         left={0}
         width="100%"
-        height="88.5%"
+        height={isMobile ? '90%':"88.5%"}
         bgcolor="primary.dark"
         zIndex={0}
       />
-      1
       <Stack
         sx={{
           borderRadius:isMobile ? 0: "60px",
         }}
-        py={isMobile ? 4 : 10}
         mt={isMobile ? 0 : -10}
         gap={isMobile ? 2 : 10}
         zIndex={1100000}
