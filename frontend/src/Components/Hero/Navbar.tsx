@@ -4,6 +4,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Popover,
   Stack,
   Typography,
 } from "@mui/material";
@@ -15,16 +16,19 @@ import { useGlobalProvider } from "../../Providers/GlobalProvider";
 
 export const Navbar = ({
   userDetails,
-  handleSubmitListing
+  handleSubmitListing,
 }: {
   userDetails: null | IUser;
   handleSubmitListing: () => void;
 }) => {
-  const{openAuthModal} = useGlobalProvider()
+  const { openAuthModal } = useGlobalProvider();
   const [anchorEls, setAnchorEls] = useState<
     Record<string, HTMLElement | null>
   >({});
-  const { isMobile } = useViewPort(); 
+  const [profileAnchorEl, setProfileAnchorEl] = useState<HTMLElement | null>(
+    null
+  );
+  const { isMobile } = useViewPort();
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -36,11 +40,16 @@ export const Navbar = ({
   const handleClose = (label: string) => {
     setAnchorEls((prev) => ({ ...prev, [label]: null }));
   };
-  const handleProfileIconClick = () => {
-    if (!userDetails) {
-      openAuthModal('login')
-    }
+
+  const handleProfileIconClick = (e: React.MouseEvent<HTMLElement>) => {
+    setProfileAnchorEl(e.currentTarget);
   };
+
+  const handlePopoverClose = () => {
+    setProfileAnchorEl(null);
+  };
+
+  const isProfileOpen = Boolean(profileAnchorEl);
 
   return (
     <Stack
@@ -48,21 +57,26 @@ export const Navbar = ({
       width="100%"
       justifyContent="space-between"
       alignItems="center"
-      bgcolor="transparent"
-      flexWrap="wrap" 
-      gap={isMobile ? 2 : 0} 
+      flexWrap="wrap"
+      gap={isMobile ? 2 : 0}
     >
-      <Box component="img" src="/public/assets/images/logo.svg" height={isMobile ? 30 : 40} /> 
-      {!isMobile && ( 
+      <Box
+        component="img"
+        src="/public/assets/images/logo.svg"
+        height={isMobile ? 30 : 40}
+      />
+
+      {!isMobile && (
         <Stack
           direction="row"
           gap={3}
-          alignItems={"center"}
+          alignItems="center"
           justifyContent="center"
         >
           {NavbarStaticOptions.map((option) => {
             const hasOptions = !!option.options;
             const open = Boolean(anchorEls[option.label]);
+
             return (
               <Stack key={option.label}>
                 <Button
@@ -84,7 +98,6 @@ export const Navbar = ({
                       <IconButton
                         size="small"
                         color="primary"
-                        sx={{}}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleClick(e, option.label);
@@ -100,7 +113,7 @@ export const Navbar = ({
 
                 {hasOptions && (
                   <Menu
-                    anchorEl={anchorEls[option.label] }
+                    anchorEl={anchorEls[option.label]}
                     open={!!open}
                     onClose={() => handleClose(option.label)}
                   >
@@ -120,41 +133,94 @@ export const Navbar = ({
               </Stack>
             );
           })}
-          <Stack sx={{cursor:'pointer'}} onClick={handleProfileIconClick} direction="row" gap={1} alignItems='center'>
+
+          <Stack
+            direction="row"
+            gap={1}
+            alignItems="center"
+            onClick={handleProfileIconClick}
+            sx={{ cursor: "pointer" }}
+          >
             <Person
-            
               sx={{
-                cursor: "pointer",
-                "&:hover": {
-                  color: "primary.main",
-                },
+                "&:hover": { color: "primary.main" },
                 color: userDetails ? "primary.main" : "#fff",
               }}
             />
-            <Typography  color="#fff" variant="body1" fontSize='0.875rem'>
+            <Typography color="#fff" variant="body1" fontSize="0.875rem">
               {userDetails?.username || "Sign in"}
             </Typography>
           </Stack>
-          <Button onClick={handleSubmitListing} sx={{ borderRadius: "30px" }} variant="outlined">
+
+          <Button
+            onClick={handleSubmitListing}
+            sx={{ borderRadius: "30px" }}
+            variant="outlined"
+          >
             Submit Listing
           </Button>
         </Stack>
       )}
+
       {isMobile && (
-        <Stack direction="row" gap={2} alignItems="center">
-            <Person
-              onClick={handleProfileIconClick}
-              sx={{
-                cursor: "pointer",
-                "&:hover": {
-                  color: "primary.main",
-                },
-                color: userDetails ? "primary.main" : "#fff",
-              }}
-            />
-            
+        <Stack
+          onClick={handleProfileIconClick}
+          direction="row"
+          gap={2}
+          alignItems="center"
+        >
+          <Person
+            sx={{
+              cursor: "pointer",
+              "&:hover": { color: "primary.main" },
+              color: userDetails ? "primary.main" : "#fff",
+            }}
+          />
         </Stack>
       )}
+
+      <Popover
+        open={isProfileOpen}
+        anchorEl={profileAnchorEl}
+        onClose={handlePopoverClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+      >
+        <Stack p={2} gap={1}>
+          {userDetails ? (
+            <Button
+              onClick={() => {
+                localStorage.removeItem("token");
+                window.location.reload();
+                handlePopoverClose();
+              }}
+            >
+              Logout
+            </Button>
+          ) : (
+            <>
+              <Button
+                onClick={() => {
+                  openAuthModal("login");
+                  handlePopoverClose();
+                }}
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={() => {
+                  openAuthModal("signup");
+                  handlePopoverClose();
+                }}
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
+        </Stack>
+      </Popover>
     </Stack>
   );
 };

@@ -32,6 +32,12 @@ export const SearchedVehicles = ({
       fullScreen={isMobile}
       fullWidth
       onClose={onClose}
+      sx={{
+        ".MuiPaper-root": {
+          height: isMobile ? "100%" : "auto",
+          minHeight: "300px",
+        },
+      }}
     >
       <Stack p={2} direction="column" gap={2} width="100%">
         <Stack

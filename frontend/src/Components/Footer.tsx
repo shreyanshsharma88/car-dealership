@@ -1,12 +1,20 @@
-import { Facebook, Instagram, LinkedIn, Twitter } from "@mui/icons-material";
 import {
-    Box,
-    Button,
-    Grid,
-    IconButton,
-    Stack,
-    TextField,
-    Typography
+  Apple,
+  Facebook,
+  Google,
+  Instagram,
+  LinkedIn,
+  Twitter,
+} from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useViewPort } from "../Hooks";
 import { useGlobalProvider } from "../Providers/GlobalProvider";
@@ -49,18 +57,23 @@ const footerData = [
 ];
 
 const appButtons = [
-  { line1: "Download on the", line2: "Apple Store" },
-  { line1: "Get it on", line2: "Google Play" },
+  { line1: "Download on the", line2: "Apple Store", icon: <Apple /> },
+  { line1: "Get it on", line2: "Google Play", icon: <Google /> },
 ];
 
 const socialIcons = [Facebook, Twitter, Instagram, LinkedIn];
 
 export default function Footer() {
-    const {isDesktop} = useViewPort()
-    const {userDetails} = useGlobalProvider()
+  const { isDesktop } = useViewPort();
+  const { userDetails } = useGlobalProvider();
   return (
-    <Stack p={2} alignItems='center' zIndex={100} sx={{ color: "white", py:isDesktop ? 15 : 4 }}>
-      <Stack width={isDesktop ? '70%' : '100%'}  alignSelf='center' gap={4}>
+    <Stack
+      p={2}
+      alignItems="center"
+      zIndex={100}
+      sx={{ color: "white", py: isDesktop ? 15 : 4 }}
+    >
+      <Stack width={isDesktop ? "70%" : "100%"} alignSelf="center" gap={4}>
         <Grid
           container
           spacing={4}
@@ -81,43 +94,46 @@ export default function Footer() {
               Receive pricing updates, shopping tips & more!
             </Typography>
           </Grid>
-          {!userDetails && <Grid
-            size={{
-              xs: 12,
-              md: 6,
-            }}
-          >
-            <Stack
-              direction="row"
-              spacing={2}
-              justifyContent={{ xs: "flex-start", md: "flex-end" }}
+          {!userDetails && (
+            <Grid
+              size={{
+                xs: 12,
+                md: 6,
+              }}
             >
-              <TextField
-                placeholder="Your email address"
-                variant="outlined"
-                sx={{
-                  bgcolor: "#1A1A3D",
-                  input: { color: "white" },
-                  borderRadius: 8,
-                  width: 300,
-                  "& fieldset": { border: "none" },
-                }}
-              />
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: "#6C4EF2",
-                  borderRadius: 8,
-                  textTransform: "none",
-                  px: 3,
-                  "&:hover": { bgcolor: "#5b3de2" },
-                }}
+              <Stack
+                direction="row"
+                spacing={2}
+                justifyContent={{ xs: "flex-start", md: "flex-end" }}
               >
-                Sign Up
-              </Button>
-            </Stack>
-          </Grid>}
+                <TextField
+                  placeholder="Your email address"
+                  variant="outlined"
+                  sx={{
+                    bgcolor: "#1A1A3D",
+                    input: { color: "white" },
+                    borderRadius: 8,
+                    width: 300,
+                    "& fieldset": { border: "none" },
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#6C4EF2",
+                    borderRadius: 8,
+                    textTransform: "none",
+                    px: 3,
+                    "&:hover": { bgcolor: "#5b3de2" },
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </Stack>
+            </Grid>
+          )}
         </Grid>
+        <Divider sx={{ borderColor: "#808080", border: "0.5px solid" }} />
 
         <Grid container spacing={4} justifyContent="space-between">
           {footerData.map((section) => (
@@ -140,36 +156,40 @@ export default function Footer() {
               </Stack>
             </Grid>
           ))}
-
           <Grid
             size={{
               xs: 12,
               md: 3,
             }}
           >
-            <Typography color="#fff" fontWeight="bold" gutterBottom>
+            <Typography color="#fff" fontWeight="bold" gutterBottom mb={2}>
               Our Mobile App
             </Typography>
-            <Stack spacing={1} mb={2}>
-              {appButtons.map(({ line1, line2 }, index) => (
-                <Box
-                  key={index}
+            <Stack spacing={2} mb={2}>
+              {appButtons.map(({ line1, line2, icon }, index) => (
+                <Stack
                   sx={{
-                    bgcolor: "#1A1A3D",
-                    borderRadius: 2,
+                    bgcolor: "#161c30",
+                    borderRadius: 4,
                     px: 2,
                     py: 1.2,
-                    display: "inline-block",
                     cursor: "pointer",
                   }}
+                  key={index}
+                  alignItems="center"
+                  direction="row"
+                  gap={2}
                 >
-                  <Typography color="#fff" variant="body2">
-                    {line1}
-                  </Typography>
-                  <Typography color="#fff" fontWeight="bold">
-                    {line2}
-                  </Typography>
-                </Box>
+                  {icon}
+                  <Box display="flex" flexDirection="column">
+                    <Typography color="#fff" variant="body2">
+                      {line1}
+                    </Typography>
+                    <Typography color="#fff" fontWeight="bold">
+                      {line2}
+                    </Typography>
+                  </Box>
+                </Stack>
               ))}
             </Stack>
 
@@ -194,7 +214,7 @@ export default function Footer() {
           flexWrap="wrap"
           gap={2}
         >
-          <Typography  variant="body2" color="gray">
+          <Typography variant="body2" color="gray">
             © 2024 example.com. All rights reserved.
           </Typography>
           <Stack direction="row" spacing={3}>
