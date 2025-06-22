@@ -18,7 +18,7 @@ import {
 import React from "react";
 import type { VehicleCardProps } from "../../utils";
 
-import { motion } from "framer-motion";
+import { easeOut, motion } from "framer-motion";
 
 const cardVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -27,10 +27,11 @@ const cardVariant = {
     y: 0,
     transition: {
       duration: 0.4,
-      ease: "easeInOut",
+      ease: easeOut,
     },
   },
 };
+
 
 export const VehicleCard = (props: VehicleCardProps) => {
   const {
