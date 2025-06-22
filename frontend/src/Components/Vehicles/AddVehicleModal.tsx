@@ -10,10 +10,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FeaturedCarBodyTypes, makes } from "../../utils";
+import { FeaturedCarBodyTypes, makes, vehicleSchema } from "../../utils";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "../../http";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "react-toastify";
+
 
 export const AddVehicleModal = ({
   open,
@@ -22,7 +25,14 @@ export const AddVehicleModal = ({
   onClose: () => void;
   open: boolean;
 }) => {
-  const { control, register, handleSubmit, reset } = useForm<VehicleInput>({
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<VehicleInput>({
+    resolver: yupResolver(vehicleSchema),
     defaultValues: {
       images: [{ url: "" }],
       status: "Available",
@@ -44,41 +54,40 @@ export const AddVehicleModal = ({
     onSuccess: () => {
       reset();
       onClose();
+      toast.success("Vehicle added successfully!");
     },
   });
 
   const onSubmit = handleSubmit((data: VehicleInput) => {
     mutate(data);
   });
+
   return (
     <Dialog
       open={open}
       onClose={onClose}
       maxWidth="md"
       fullWidth
-      PaperProps={{
-        sx: {
-          p: 2,
-        },
-      }}
+      PaperProps={{ sx: { p: 2 } }}
     >
       <Stack width="100%" gap={2}>
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="h4">Let's sell your car </Typography>
+          <Typography variant="h4">Let's sell your car</Typography>
           <IconButton onClick={onClose}>
             <Close />
           </IconButton>
         </Stack>
         <DialogContent>
           <Grid container spacing={2}>
-            {/* Render Select Fields */}
             {vehicleSelectFields.map(({ name, label, options }) => (
-              <Grid size={{ xs: 6 }} key={name}>
+              <Grid size={{xs:12, sm: 6}} key={name}>
                 <TextField
                   select
                   fullWidth
                   label={label}
-                  {...register(name as keyof VehicleInput, { required: true })}
+                  error={!!errors[name as keyof VehicleInput]}
+                  helperText={errors[name as keyof VehicleInput]?.message}
+                  {...register(name as keyof VehicleInput)}
                 >
                   {options.map((opt) => (
                     <MenuItem key={opt.value} value={opt.label}>
@@ -89,31 +98,32 @@ export const AddVehicleModal = ({
               </Grid>
             ))}
 
-            {/* Render Text Fields */}
             {vehicleTextFields.map(({ name, label, type = "text" }) => (
-              <Grid size={{ xs: 6 }} key={name}>
+              <Grid size={{xs:12, sm: 6}}  key={name}>
                 <TextField
                   fullWidth
                   label={label}
                   type={type}
-                  {...register(name as keyof VehicleInput, { required: true })}
+                  error={!!errors[name as keyof VehicleInput]}
+                  helperText={errors[name as keyof VehicleInput]?.message}
+                  {...register(name as keyof VehicleInput)}
                 />
               </Grid>
             ))}
 
-            {/* Description */}
-            <Grid size={{ xs: 12 }}>
+            <Grid size={{xs:12}}>
               <TextField
                 fullWidth
-                label="Description"
                 multiline
                 rows={4}
-                {...register("description", { required: true })}
+                label="Description"
+                error={!!errors.description}
+                helperText={errors.description?.message}
+                {...register("description")}
               />
             </Grid>
 
-            {/* Images (same logic as before) */}
-            <Grid size={{ xs: 12 }}>
+            <Grid size={{xs:12}}>
               <Stack gap={2}>
                 <Typography fontWeight={600}>Image URLs (Max 4)</Typography>
                 {fields.map((field, index) => (
@@ -126,6 +136,10 @@ export const AddVehicleModal = ({
                           {...field}
                           label={`Image URL ${index + 1}`}
                           fullWidth
+                          error={!!errors.images?.[index]?.url}
+                          helperText={
+                            errors.images?.[index]?.url?.message as string
+                          }
                         />
                       )}
                     />
@@ -149,8 +163,14 @@ export const AddVehicleModal = ({
             </Grid>
           </Grid>
         </DialogContent>
+        <Button
+          sx={{ alignSelf: "flex-end", mr: 3 }}
+          variant="contained"
+          onClick={onSubmit}
+        >
+          Submit
+        </Button>
       </Stack>
-      <Button variant="contained" onClick={onSubmit}>Submit</Button>
     </Dialog>
   );
 };

@@ -18,8 +18,8 @@ interface CarouselProps {
 
 export const TestimonialCarousel = ({ testimonials }: CarouselProps) => {
   const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(0); 
-  const {isMobile} = useViewPort()
+  const [direction, setDirection] = useState(0);
+  const { isMobile } = useViewPort();
   const total = testimonials.length;
 
   const handleChange = (newIndex: number) => {
@@ -30,18 +30,15 @@ export const TestimonialCarousel = ({ testimonials }: CarouselProps) => {
   const { name, title, rating, message, image } = testimonials[current];
 
   return (
-    <Box
-      width="100%"
-      height="100%"
-      display="flex"
-      
-      gap={4}
-    >
-      <IconButton sx={{maxHeight: 50, alignSelf:'center'}} onClick={() => handleChange(current - 1)}>
+    <Box width="100%" height="100%" display="flex" gap={4}>
+      <IconButton
+        sx={{ maxHeight: 50, alignSelf: "center" }}
+        onClick={() => handleChange(current - 1)}
+      >
         <ArrowBackIos />
       </IconButton>
 
-      <Box width={'100%'} overflow="hidden">
+      <Box width={"100%"} overflow="hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -50,12 +47,18 @@ export const TestimonialCarousel = ({ testimonials }: CarouselProps) => {
             exit={{ opacity: 0, x: direction > 0 ? -100 : 100 }}
             transition={{ duration: 0.4 }}
           >
-            <Stack direction={isMobile ? 'column':"row"} spacing={4} alignItems="center">
-              <Avatar
-                src={image}
-                alt={name}
-                sx={{ width: 450, height: 470, borderRadius: 2 }}
-              />
+            <Stack
+              direction={isMobile ? "column" : "row"}
+              spacing={4}
+              alignItems="center"
+            >
+              {!isMobile && (
+                <Avatar
+                  src={image}
+                  alt={name}
+                  sx={{ width: 450, height: 470, borderRadius: 2 }}
+                />
+              )}
               <Box>
                 <Rating value={rating} readOnly />
                 <Typography fontWeight="bold" mt={1}>
@@ -73,7 +76,10 @@ export const TestimonialCarousel = ({ testimonials }: CarouselProps) => {
         </AnimatePresence>
       </Box>
 
-      <IconButton sx={{maxHeight: 50, alignSelf:'center'}} onClick={() => handleChange(current + 1)}>
+      <IconButton
+        sx={{ maxHeight: 50, alignSelf: "center" }}
+        onClick={() => handleChange(current + 1)}
+      >
         <ArrowForwardIos />
       </IconButton>
     </Box>

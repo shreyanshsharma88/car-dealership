@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "../../http";
+import { isValidEmail } from "../../utils";
 
 export const Login = ({ onSuccess }: { onSuccess: () => void }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -14,6 +15,14 @@ export const Login = ({ onSuccess }: { onSuccess: () => void }) => {
       onSuccess();
     },
   });
+
+  const handleLogin = () => {
+    if (!isValidEmail(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    loginMutation.mutate();
+  }
 
   return (
     <Stack spacing={2} width="100%">
@@ -30,7 +39,7 @@ export const Login = ({ onSuccess }: { onSuccess: () => void }) => {
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
         fullWidth
       />
-      <Button variant="contained" onClick={() => loginMutation.mutate()}>
+      <Button variant="contained" onClick={handleLogin}>
         Login
       </Button>
     </Stack>

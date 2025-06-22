@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import type { IArticleCardProps, TCarType, Testimonial } from "./types";
+import * as yup from "yup";
 
 export const NavbarStaticOptions = [
   {
@@ -319,3 +320,42 @@ export const testimonialData: Testimonial[] = [
     image: "https://randomuser.me/api/portraits/women/45.jpg",
   },
 ];
+
+
+
+export const vehicleSchema = yup.object().shape({
+  make: yup.string().required("Make is required"),
+  model: yup.string().required("Model is required"),
+  year: yup
+    .number()
+    .typeError("Year must be a number")
+    .min(1900)
+    .max(new Date().getFullYear() + 1)
+    .required("Year is required"),
+  price: yup.number().required("Price is required"),
+  originalPrice: yup.number().required("Original price is required"),
+  mileage: yup.number().required("Mileage is required"),
+  condition: yup.string().oneOf(["New", "Used"] as const).required("Condition is required"),
+  bodyType: yup.string().required("Body type is required"),
+  color: yup.string().required("Color is required"),
+  transmission: yup.string().required("Transmission is required"),
+  fuelType: yup.string().required("Fuel type is required"),
+  description: yup.string().required("Description is required"),
+  VIN: yup
+    .string()
+    .length(17, "VIN must be exactly 17 characters")
+    .required("VIN is required"),
+  status: yup.string().required("Status is required"),
+  isNew: yup.boolean().required(),
+  images: yup
+    .array()
+    .of(
+      yup.object().shape({
+        url: yup.string().url("Must be a valid URL").required("Image URL is required"),
+      })
+    )
+    .max(4, "Maximum 4 images allowed")
+    .min(1, "At least 1 image URL is required")
+    .required("Images are required")
+    .default([]),
+});

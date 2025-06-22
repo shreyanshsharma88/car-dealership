@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "../../http";
+import { isValidEmail } from "../../utils";
 export const Signup = ({ onSuccess }: { onSuccess: () => void }) => {
   const [formData, setFormData] = useState({
     username: "",
@@ -17,6 +18,13 @@ export const Signup = ({ onSuccess }: { onSuccess: () => void }) => {
       onSuccess();
     },
   });
+  const handleSignup = () => {
+    if (!isValidEmail(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    signupMutation.mutate()
+  }
 
   return (
     <Stack spacing={2} width="100%">
@@ -39,7 +47,7 @@ export const Signup = ({ onSuccess }: { onSuccess: () => void }) => {
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
         fullWidth
       />
-      <Button variant="contained" onClick={() => signupMutation.mutate()}>
+      <Button variant="contained" onClick={handleSignup}>
         Create Account
       </Button>
     </Stack>
