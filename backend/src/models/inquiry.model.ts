@@ -18,10 +18,6 @@ export const inquirySchema = new mongoose.Schema({
         'Please add a valid email'
       ]
     },
-    phone: {
-      type: String,
-      required: false
-    },
     vehicleId: {
       type: mongoose.Schema.ObjectId,
       ref: 'Vehicle', 
