@@ -31,7 +31,7 @@ export const Render = () => {
         }}
         mt={isMobile ? 0 : -10}
         gap={isMobile ? 2 : 10}
-        zIndex={1100000}
+        zIndex={100}
         overflow="hidden"
         bgcolor="background.default"
         pb={isMobile ? 2 : 10}

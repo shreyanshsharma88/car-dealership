@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import type { IArticleCardProps, TCarType, Testimonial, VehicleCardProps } from "./types";
+import type { IArticleCardProps, TCarType, Testimonial } from "./types";
 
 export const NavbarStaticOptions = [
   {
@@ -188,101 +188,6 @@ export const StaticPremiumBrands = [
 ];
 
 
-export const dummyVehicles: VehicleCardProps[] = [
-  {
-    _id: "6674e1d7a3f4b5c6d7e8f0a1",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZz_oWKikNFL_-5s4qAU2ucLL0O97kbc1DA&s",
-    make: "Tesla",
-    model: "Model 3",
-    year: 2023,
-    description: "Long Range AWD with Autopilot. Excellent condition.",
-    mileage: 15000,
-    fuelType: "Electric",
-    transmission: "Automatic",
-    price: 45000,
-    originalPrice: 48000, // Will show "Great Price"
-    onViewDetails: (id) => console.log(`View details for ${id}`),
-    onBookmarkToggle: (id, isBookmarked) => console.log(`Bookmark toggle for ${id}: ${!isBookmarked}`),
-    isBookmarked: false,
-  },
-  {
-    _id: "6674e1d7a3f4b5c6d7e8f0a2",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZz_oWKikNFL_-5s4qAU2ucLL0O97kbc1DA&s",
-    make: "Ford",
-    model: "F-150",
-    year: 2022,
-    description: "Lariat SuperCrew 4x4 with FX4 Off-Road Package. Low mileage.",
-    mileage: 28000,
-    fuelType: "Petrol",
-    transmission: "Automatic",
-    price: 52000,
-    onViewDetails: (id) => console.log(`View details for ${id}`),
-    onBookmarkToggle: (id, isBookmarked) => console.log(`Bookmark toggle for ${id}: ${!isBookmarked}`),
-    isBookmarked: true,
-  },
-  {
-    _id: "6674e1d7a3f4b5c6d7e8f0a3",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZz_oWKikNFL_-5s4qAU2ucLL0O97kbc1DA&s",
-    make: "Honda",
-    model: "Civic",
-    year: 2021,
-    description: "EX Sedan, well-maintained, perfect for city driving.",
-    mileage: 45000,
-    fuelType: "Petrol",
-    transmission: "Manual",
-    price: 20000,
-    originalPrice: 21500, // Will show "Great Price"
-    onViewDetails: (id) => console.log(`View details for ${id}`),
-    onBookmarkToggle: (id, isBookmarked) => console.log(`Bookmark toggle for ${id}: ${!isBookmarked}`),
-    isBookmarked: false,
-  },
-  {
-    _id: "6674e1d7a3f4b5c6d7e8f0a4",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZz_oWKikNFL_-5s4qAU2ucLL0O97kbc1DA&s",
-    make: "Mercedes-Benz",
-    model: "C-Class",
-    year: 2020,
-    description: "C 300 Sedan, Luxury Package. Premium interior.",
-    mileage: 35000,
-    fuelType: "Petrol",
-    transmission: "Automatic",
-    price: 38000,
-    onViewDetails: (id) => console.log(`View details for ${id}`),
-    onBookmarkToggle: (id, isBookmarked) => console.log(`Bookmark toggle for ${id}: ${!isBookmarked}`),
-    isBookmarked: true,
-  },
-  {
-    _id: "6674e1d7a3f4b5c6d7e8f0a5",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZz_oWKikNFL_-5s4qAU2ucLL0O97kbc1DA&s",
-    make: "Toyota",
-    model: "RAV4 Hybrid",
-    year: 2023,
-    description: "XSE AWD Hybrid, excellent fuel economy, advanced safety features.",
-    mileage: 12000,
-    fuelType: "Hybrid",
-    transmission: "Automatic",
-    price: 35000,
-    originalPrice: 36500, // Will show "Great Price"
-    onViewDetails: (id) => console.log(`View details for ${id}`),
-    onBookmarkToggle: (id, isBookmarked) => console.log(`Bookmark toggle for ${id}: ${!isBookmarked}`),
-    isBookmarked: false,
-  },
-  {
-    _id: "6674e1d7a3f4b5c6d7e8f0a6",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZz_oWKikNFL_-5s4qAU2ucLL0O97kbc1DA&s",
-    make: "BMW",
-    model: "X5",
-    year: 2021,
-    description: "xDrive40i SUV, M Sport Package. Luxurious and powerful.",
-    mileage: 20000,
-    fuelType: "Petrol",
-    transmission: "Automatic",
-    price: 60000,
-    onViewDetails: (id) => console.log(`View details for ${id}`),
-    onBookmarkToggle: (id, isBookmarked) => console.log(`Bookmark toggle for ${id}: ${!isBookmarked}`),
-    isBookmarked: false,
-  }
-];
 
 export const WhyUs = [
   {
@@ -341,22 +246,7 @@ export const carBrands = [
   "Renault Cars"
 ];
 
-export const footerBoxes = [
-  {
-    label: 'Are you Looking for a car?',
-    description: "We are committed to providing our customers with exceptional service.",
-    img: "/public/assets/images/electric-car.svg.svg",
-    bgColor: "#e9f2fe",
-    buttonColor: 'info.main'
-  },
-  {
-    label: 'Do you want to sell a Car?',
-    description: "We are committed to providing our customers with exceptional service.",
-    img: "/public/assets/images/electric-car2.svg fill.svg",
-    bgColor:"#fae8f3",
-    buttonColor: '#000'
-  }
-]
+
 
 export const dummyArticles: IArticleCardProps[] = [
   {

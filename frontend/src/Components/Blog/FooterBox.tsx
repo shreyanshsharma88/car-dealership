@@ -17,7 +17,7 @@ export const FooterBoxCard = ({
       bgcolor={bgColor}
       p={isMobile ? 2 : 0}
       height="350px"
-    //   maxWidth={600}
+      //   maxWidth={600}
       gap={2}
       justifyContent="center"
       alignItems="center"
@@ -34,8 +34,8 @@ export const FooterBoxCard = ({
           sx={{
             bgcolor: buttonColor,
             color: "white",
-            width: '150px',
-            p:2
+            width: "150px",
+            p: 2,
           }}
         >
           Get Started
