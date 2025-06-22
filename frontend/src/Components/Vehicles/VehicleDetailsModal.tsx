@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Chip,
   CircularProgress,
   Dialog,
@@ -8,14 +9,17 @@ import {
   Grid,
   IconButton,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { useViewPort } from "../../Hooks";
 import { api } from "../../http";
 import type { Vehicle } from "../../utils";
 import { Close } from "@mui/icons-material";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const VehicleDetailsModel = ({
   onClose,
@@ -24,6 +28,7 @@ export const VehicleDetailsModel = ({
   open: boolean;
   onClose: () => void;
 }) => {
+  const [inquiry, setInquiry] = useState("");
   const { isMobile } = useViewPort();
   const [sp] = useSearchParams();
   const vehicleId = sp.get("vehicleId");
@@ -33,7 +38,19 @@ export const VehicleDetailsModel = ({
     enabled: !!vehicleId,
   });
   const vehicle: Vehicle = data;
-  console.log({ img: vehicle });
+
+  const inquiryMutation = useMutation({
+    mutationFn: () =>
+      api.createInquiry({
+        message: inquiry,
+        vehicleId: vehicle?.id,
+        subject: `Inquiry about ${vehicle?.year} ${vehicle?.make} ${vehicle?.model}`,
+      }),
+    onSuccess: () => {
+      setInquiry("");
+      toast.success("Inquiry sent successfully!");
+    },
+  });
 
   return (
     <Dialog
@@ -73,12 +90,30 @@ export const VehicleDetailsModel = ({
           />
           <DialogContent>
             <Stack spacing={2}>
-              <Box>
-                <Typography variant="subtitle2" color="text.secondary">
-                  Description
-                </Typography>
-                <Typography>{vehicle?.description}</Typography>
-              </Box>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                flexWrap="wrap"
+              >
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Description
+                  </Typography>
+                  <Typography>{vehicle?.description}</Typography>
+                </Box>
+                <Button
+                  onClick={() => inquiryMutation.mutate()}
+                  startIcon={
+                    <TextField
+                      value={inquiry}
+                      onChange={(e) => setInquiry(e.target.value)}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  }
+                >
+                  Ask Inquiry
+                </Button>
+              </Stack>
 
               <Divider />
 
@@ -160,21 +195,23 @@ export const VehicleDetailsModel = ({
                       spacing={2}
                       sx={{ overflowX: "auto", mt: 1 }}
                     >
-                      {vehicle?.images.filter(item => item?.length > 0).map((img, idx) => (
-                        <Box
-                          component="img"
-                          key={idx}
-                          src={img}
-                          alt={`vehicle-img-${idx}`}
-                          sx={{
-                            width: 120,
-                            height: 80,
-                            objectFit: "cover",
-                            borderRadius: 1,
-                            border: "1px solid #ccc",
-                          }}
-                        />
-                      ))}
+                      {vehicle?.images
+                        .filter((item) => item?.length > 0)
+                        .map((img, idx) => (
+                          <Box
+                            component="img"
+                            key={idx}
+                            src={img}
+                            alt={`vehicle-img-${idx}`}
+                            sx={{
+                              width: 120,
+                              height: 80,
+                              objectFit: "cover",
+                              borderRadius: 1,
+                              border: "1px solid #ccc",
+                            }}
+                          />
+                        ))}
                     </Stack>
                   </Box>
                 </>

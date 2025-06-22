@@ -12,12 +12,12 @@ export const BrandCard = ({
       sx={{
         border: "1px solid #f0f0f0",
         borderRadius: 2,
-        width: '100%', // Make card fill the Grid item's width
+        width: '100%',
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        p: { xs: 1.5, sm: 2 }, // Responsive padding using breakpoints
+        p: { xs: 1.5, sm: 2 },
         textAlign: "center",
         cursor: "pointer",
         transition: "0.3s",
@@ -32,17 +32,17 @@ export const BrandCard = ({
         src={brandLogo}
         alt={brandLogo}
         sx={{
-          width: { xs: '80px', sm: '100px' }, // Responsive logo size
-          height: { xs: '80px', sm: '100px' }, // Responsive logo size
+          width: { xs: '80px', sm: '100px' }, 
+          height: { xs: '80px', sm: '100px' }, 
           objectFit: "contain"
         }}
       />
-      <CardContent sx={{ p: { xs: 0.5, sm: 1 } }}> {/* Responsive padding */}
+      <CardContent sx={{ p: { xs: 0.5, sm: 1 } }}> 
         <Typography sx={{
           textOverflow: "ellipsis",
           overflow: "hidden",
           whiteSpace: "nowrap",
-          maxWidth: { xs: '80px', sm: '150px' }, // Responsive max width
+          maxWidth: { xs: '80px', sm: '150px' }, 
         }} variant={ "body2"} fontWeight="bold" color="primary.dark">
           {brandName}
         </Typography>

@@ -20,11 +20,11 @@ import type { GlobalModalContextType, IFilter, IUser } from "../utils";
 const GlobalContext = createContext<GlobalModalContextType | undefined>(
   undefined
 );
-const token = localStorage.getItem("token");
 
 export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const token = localStorage.getItem("token");
   const [searchParams, setSearchParams] = useSearchParams();
   const [mode, setMode] = useState<"login" | "signup" | null>(null);
   const [showSearchResults, setShowSearchResults] = useState(false);

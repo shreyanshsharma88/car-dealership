@@ -92,7 +92,7 @@ export const HeroBackground = () => {
                 maxWidth={isMobile ? "48%" : "none"}
                 onClick={() =>
                   handleSearchVehicles({
-                    bodyType: model.value,
+                    bodyType: model.label,
                   })
                 }
                 sx={{ cursor: "pointer" }}
@@ -147,11 +147,9 @@ const SearchCars = ({
         ))}
       </Stack>
       <CarSearchBar
-        handleSearchVehicles={() =>
-          handleSearchVehicles({
-            isNew:
-              carType === "New" ? true : carType === "Used" ? false : undefined,
-          })
+        handleSearchVehicles={handleSearchVehicles}
+        isNew={
+          carType === "New" ? true : carType === "Used" ? false : undefined
         }
       />
     </Stack>
@@ -160,8 +158,10 @@ const SearchCars = ({
 
 const CarSearchBar = ({
   handleSearchVehicles,
+  isNew,
 }: {
   handleSearchVehicles: (filters: IFilter) => void;
+  isNew: boolean | undefined;
 }) => {
   const [anchorEls, setAnchorEls] = useState<
     Record<string, HTMLElement | null>
@@ -206,6 +206,7 @@ const CarSearchBar = ({
       model: filters.model === "Any Model" ? undefined : filters.model,
       maxPrice: filters.prices[1] === MAX_PRICE ? undefined : filters.prices[1],
       minPrice: filters.prices[0] === MIN_PRICE ? undefined : filters.prices[0],
+      isNew,
     };
     handleSearchVehicles(searchFilters);
   };

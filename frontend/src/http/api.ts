@@ -1,5 +1,4 @@
-import type { VehicleInput } from "../Components/Vehicles/AddVehicleModal";
-import type { IFilter, Vehicle } from "../utils";
+import type { IFilter } from "../utils";
 import authAxios from "./axios";
 
 export const api = {
@@ -58,5 +57,21 @@ export const api = {
   createVehicle: async (vehicle: any) => {
     const res = await authAxios.post("/vehicles", vehicle);
     return res.data;
-  }
+  },
+  createInquiry: async ({
+    message,
+    subject,
+    vehicleId,
+  }: {
+    vehicleId: string;
+    subject: string;
+    message: string;
+  }) => {
+    const res = await authAxios.post("/inquiries", {
+      vehicleId,
+      subject,
+      message,
+    });
+    return res.data;
+  },
 };

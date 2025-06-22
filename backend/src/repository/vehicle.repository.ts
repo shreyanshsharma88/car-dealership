@@ -1,7 +1,7 @@
 import { VehicleModel } from "../models/vehicle.model";
 
 export const findVehicles = async (filter: any) => {
-  return await VehicleModel.find();
+  return await VehicleModel.find(filter);
 };
 
 export const createVehicle = async (vehicleData: any) => {
