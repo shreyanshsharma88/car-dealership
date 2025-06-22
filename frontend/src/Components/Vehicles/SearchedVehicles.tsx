@@ -50,8 +50,7 @@ export const SearchedVehicles = ({
         {loading ? (
           <CircularProgress sx={{ alignSelf: "center" }} />
         ) : (
-          <Grid container spacing={2} sx={{ width: "100%", alignItems: "center", justifyContent:'center'}}>
-            {" "}
+          <Grid container spacing={2} sx={{ width: "100%" }}>
             {vehicles?.map((item) => (
               <Grid
                 key={item.id}

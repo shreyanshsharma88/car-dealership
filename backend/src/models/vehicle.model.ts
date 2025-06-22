@@ -20,7 +20,7 @@ export const vehicleSchema = new mongoose.Schema(
         "Fiat",
         "Land Rover",
         "Lexus",
-        "Mercedes-Benz",
+        "Mercedes",
         "Mazda",
         "MG",
         "Kia",

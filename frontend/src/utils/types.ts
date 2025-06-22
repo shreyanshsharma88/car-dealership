@@ -44,6 +44,7 @@ export interface GlobalModalContextType {
   handleSubmitListing: () => void;
   handleViewCarDetails: (vehicleId: string) => void;
   handleSearchVehicles: (filters: IFilter) => void;
+  isLoggedIn: boolean;
 }
 
 export interface IUser {

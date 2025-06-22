@@ -128,6 +128,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       handleSubmitListing,
       handleViewCarDetails,
       handleSearchVehicles,
+      isLoggedIn,
     }),
     [
       closeAuthModal,
@@ -137,6 +138,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       handleSubmitListing,
       handleViewCarDetails,
       handleSearchVehicles,
+      isLoggedIn,
     ]
   );
 

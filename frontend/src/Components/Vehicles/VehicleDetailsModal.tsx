@@ -20,6 +20,7 @@ import type { Vehicle } from "../../utils";
 import { Close } from "@mui/icons-material";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useGlobalProvider } from "../../Providers/GlobalProvider";
 
 export const VehicleDetailsModel = ({
   onClose,
@@ -38,6 +39,7 @@ export const VehicleDetailsModel = ({
     enabled: !!vehicleId,
   });
   const vehicle: Vehicle = data;
+  const { isLoggedIn } = useGlobalProvider();
 
   const inquiryMutation = useMutation({
     mutationFn: () =>
@@ -102,7 +104,13 @@ export const VehicleDetailsModel = ({
                   <Typography>{vehicle?.description}</Typography>
                 </Box>
                 <Button
-                  onClick={() => inquiryMutation.mutate()}
+                  onClick={() => {
+                    if (!isLoggedIn) {
+                      toast.info("Sign in and then raise a query");
+                      return
+                    }
+                    inquiryMutation.mutate();
+                  }}
                   startIcon={
                     <TextField
                       value={inquiry}
