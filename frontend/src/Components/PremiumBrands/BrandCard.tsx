@@ -38,7 +38,12 @@ export const BrandCard = ({
         }}
       />
       <CardContent sx={{ p: { xs: 0.5, sm: 1 } }}> {/* Responsive padding */}
-        <Typography variant={ "body2"} fontWeight="bold" color="primary.dark">
+        <Typography sx={{
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          maxWidth: { xs: '80px', sm: '150px' }, // Responsive max width
+        }} variant={ "body2"} fontWeight="bold" color="primary.dark">
           {brandName}
         </Typography>
       </CardContent>

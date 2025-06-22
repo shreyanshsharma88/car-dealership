@@ -11,3 +11,7 @@ export const createVehicle = async (vehicleData: any) => {
 export const findVehicleByVin = async (vin: string) => {
   return await VehicleModel.findOne({ VIN: vin });
 }
+
+export const findVehicleById = async (id: string) => {
+  return await VehicleModel.findById(id);
+}
