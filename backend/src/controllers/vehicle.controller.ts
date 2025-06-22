@@ -151,6 +151,7 @@ export const addVehicle = async (
       status: status || "Available",
       isNew,
       postedDate: postedDate || new Date(),
+      userId: req.body.user?.id, 
     });
 
     res.status(201).json(newVehicle);

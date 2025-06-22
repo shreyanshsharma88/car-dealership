@@ -24,5 +24,6 @@ export interface VehicleInput {
     status?: "Available" | "Sold" | "Pending";
     isNew: boolean;
     postedDate?: Date;
+    userId: string; 
   }
   

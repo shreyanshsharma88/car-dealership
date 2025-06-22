@@ -127,6 +127,11 @@ export const vehicleSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Please add a user ID"],
+    }
   },
   {
     timestamps: true,
