@@ -22,19 +22,12 @@ export const AddVehicleModal = ({
   onClose: () => void;
   open: boolean;
 }) => {
-  const {
-    control,
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<VehicleInput>({
+  const { control, register, handleSubmit, reset } = useForm<VehicleInput>({
     defaultValues: {
       images: [{ url: "" }],
       status: "Available",
       isNew: false,
     },
-    
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -42,7 +35,7 @@ export const AddVehicleModal = ({
     name: "images",
   });
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (vehicle: VehicleInput) =>
       api.createVehicle({
         ...vehicle,
@@ -54,9 +47,9 @@ export const AddVehicleModal = ({
     },
   });
 
-  const onSubmit = (data: VehicleInput) => {
+  const onSubmit = handleSubmit((data: VehicleInput) => {
     mutate(data);
-  };
+  });
   return (
     <Dialog
       open={open}
@@ -88,7 +81,7 @@ export const AddVehicleModal = ({
                   {...register(name as keyof VehicleInput, { required: true })}
                 >
                   {options.map((opt) => (
-                    <MenuItem key={opt.value} value={opt.value}>
+                    <MenuItem key={opt.value} value={opt.label}>
                       {opt.label}
                     </MenuItem>
                   ))}
@@ -157,7 +150,7 @@ export const AddVehicleModal = ({
           </Grid>
         </DialogContent>
       </Stack>
-      <Button variant="contained" >Submit</Button>
+      <Button variant="contained" onClick={onSubmit}>Submit</Button>
     </Dialog>
   );
 };

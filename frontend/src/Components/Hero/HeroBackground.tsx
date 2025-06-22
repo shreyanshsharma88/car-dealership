@@ -146,7 +146,14 @@ const SearchCars = ({
           </Stack>
         ))}
       </Stack>
-      <CarSearchBar handleSearchVehicles={handleSearchVehicles} />
+      <CarSearchBar
+        handleSearchVehicles={() =>
+          handleSearchVehicles({
+            isNew:
+              carType === "New" ? true : carType === "Used" ? false : undefined,
+          })
+        }
+      />
     </Stack>
   );
 };
