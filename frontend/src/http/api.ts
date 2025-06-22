@@ -1,3 +1,4 @@
+import type { VehicleInput } from "../Components/Vehicles/AddVehicleModal";
 import type { IFilter, Vehicle } from "../utils";
 import authAxios from "./axios";
 
@@ -53,8 +54,9 @@ export const api = {
     const res = await authAxios.get(`/vehicles/${vehicleId}`);
     return res.data;
   },
-  submitVehicleListing: async (vehicleData: any) => {
-    const res = await authAxios.post("/vehicles", vehicleData);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createVehicle: async (vehicle: any) => {
+    const res = await authAxios.post("/vehicles", vehicle);
     return res.data;
-  },
+  }
 };

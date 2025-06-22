@@ -73,7 +73,7 @@ export const customTheme = () => {
       MuiDialog: {
         styleOverrides: {
           paper: {
-            background: "rgba(255, 255, 255)",
+            background: "#EEF1FB",
           },
         },
       },

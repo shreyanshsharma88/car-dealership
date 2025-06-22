@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import {
   CarTypeOptions,
-  FeaturedCarModels,
+  FeaturedCarBodyTypes,
   SearchOptions,
   type IFilter,
   type TCarType,
@@ -76,10 +76,10 @@ export const HeroBackground = () => {
           flexWrap="wrap"
           zIndex={100}
         >
-          {FeaturedCarModels.map((model) => {
+          {FeaturedCarBodyTypes.map((model) => {
             return (
               <Stack
-                key={model.id}
+                key={model.value}
                 direction="row"
                 gap={isMobile ? 1 : 2}
                 alignItems="center"
@@ -92,10 +92,10 @@ export const HeroBackground = () => {
                 maxWidth={isMobile ? "48%" : "none"}
                 onClick={() =>
                   handleSearchVehicles({
-                    bodyType: model.label,
+                    bodyType: model.value,
                   })
                 }
-                sx={{cursor:'pointer'}}
+                sx={{ cursor: "pointer" }}
               >
                 <Box component="img" src={model.icon} width={26} height={26} />
                 <Typography variant={isMobile ? "caption" : "body1"}>

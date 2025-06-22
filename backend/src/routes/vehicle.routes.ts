@@ -1,13 +1,15 @@
 import { Router } from "express";
 import {
+  addVehicle,
   getVehicleDetails,
   getVehicles,
 } from "../controllers/vehicle.controller";
 
-const router = Router();
+export const VehicleRoutes = Router();
+export const ProtectedVehicleRoutes = Router();
 
-router.get("/vehicles", getVehicles);
+VehicleRoutes.get("/vehicles", getVehicles);
 
-router.get("/vehicles/:id", getVehicleDetails);
+VehicleRoutes.get("/vehicles/:id", getVehicleDetails);
 
-export default router;
+ProtectedVehicleRoutes.post("/vehicles", addVehicle);

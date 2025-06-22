@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { findVehicles } from "../repository/vehicle.repository";
+import {
+  createVehicle,
+  findVehicleByVin,
+  findVehicles,
+} from "../repository/vehicle.repository";
+import { VehicleInput } from "../utils/types";
 
 export const getVehicles = async (req: Request, res: Response) => {
   try {
@@ -72,6 +77,88 @@ export const getVehicleDetails = async (
       res.status(500).json({ message: error.message });
     } else {
       res.status(500).json({ message: "An unknown error occurred" });
+    }
+  }
+};
+export const addVehicle = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const {
+      make,
+      model,
+      year,
+      price,
+      originalPrice,
+      mileage,
+      condition,
+      bodyType,
+      color,
+      transmission,
+      fuelType,
+      description,
+      images,
+      VIN,
+      status,
+      isNew,
+      postedDate,
+    } = req.body as VehicleInput;
+
+    if (
+      !make ||
+      !model ||
+      !year ||
+      !price ||
+      !originalPrice ||
+      !mileage ||
+      !condition ||
+      !bodyType ||
+      !color ||
+      !transmission ||
+      !fuelType ||
+      !description ||
+      !VIN ||
+      typeof isNew === "undefined"
+    ) {
+      res.status(400).json({ message: "Missing required fields" });
+      return;
+    }
+
+    const existing = await findVehicleByVin(VIN);
+    console.log(existing, "existing vehicle", VIN);
+    if (existing) {
+      res.status(400).json({ message: "Vehicle with this VIN already exists" });
+      return;
+    }
+
+    const newVehicle = await createVehicle({
+      make,
+      model,
+      year,
+      price,
+      originalPrice,
+      mileage,
+      condition,
+      bodyType,
+      color,
+      transmission,
+      fuelType,
+      description,
+      images: images || [],
+      VIN,
+      status: status || "Available",
+      isNew,
+      postedDate: postedDate || new Date(),
+    });
+
+    res.status(201).json(newVehicle);
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error && error.name === "ValidationError") {
+      res.status(400).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 };

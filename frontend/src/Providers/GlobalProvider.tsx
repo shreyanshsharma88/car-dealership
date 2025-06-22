@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
+  AddVehicleModal,
   LoginSignupContainer,
   SearchedVehicles,
   VehicleDetailsModel,
@@ -19,6 +20,7 @@ import type { GlobalModalContextType, IFilter, IUser } from "../utils";
 const GlobalContext = createContext<GlobalModalContextType | undefined>(
   undefined
 );
+const token = localStorage.getItem("token");
 
 export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -27,7 +29,6 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   const [mode, setMode] = useState<"login" | "signup" | null>(null);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [userDetails, setUserDetails] = useState<IUser | null>(null);
-  const token = localStorage.getItem("token");
 
   useQuery({
     queryKey: ["userDetails", token],
@@ -36,6 +37,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       setUserDetails(data);
       return data;
     },
+    enabled: !!token
   });
 
   const openAuthModal = useCallback(
@@ -154,6 +156,16 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
             setSearchParams((prev) => {
               const newParams = new URLSearchParams(prev);
               newParams.delete("vehicleId");
+              return newParams;
+            });
+          }}
+        />
+        <AddVehicleModal
+          open={!!searchParams.get("submit-listing") && isLoggedIn}
+          onClose={() => {
+            setSearchParams((prev) => {
+              const newParams = new URLSearchParams(prev);
+              newParams.delete("submit-listing");
               return newParams;
             });
           }}

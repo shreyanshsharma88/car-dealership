@@ -1,10 +1,11 @@
-import express from "express";
 import cors from "cors";
-import helmet from "helmet";
 import dotenv from "dotenv";
+import express from "express";
+import helmet from "helmet";
 import connectDB from "./connection";
-import vehicleRoutes from "./routes/vehicle.routes";
-import userRoutes from './routes/user.routes';
+import { ProtectedVehicleRoutes, VehicleRoutes } from "./routes/vehicle.routes";
+import { userRoutes } from "./routes/user.routes";
+import { authMiddleware } from "./middleware/auth.middleware";
 dotenv.config();
 
 const app = express();
@@ -22,9 +23,11 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.use("/api", vehicleRoutes);
+
+app.use("/api", VehicleRoutes);
 app.use('/api/auth', userRoutes);
 
+app.use("/api", authMiddleware, ProtectedVehicleRoutes);
 app.use((req, res) => {
   res.status(404).json({
     success: false,

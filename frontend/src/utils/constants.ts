@@ -70,32 +70,66 @@ export const NavbarStaticOptions = [
   },
 ];
 
-export const FeaturedCarModels = [
+export const FeaturedCarBodyTypes = [
   {
     label: "SUV",
     icon: "/public/assets/images/suv.svg",
-    id: "suv",
+    value: "suv",
   },
   {
     label: "Sedan",
     icon: "/public/assets/images/sedan.svg",
-    id: "sedan",
+    value: "sedan",
   },
   {
     label: "Hatchback",
     icon: "/public/assets/images/hatchback.svg",
-    id: "hatchback",
+    value: "hatchback",
   },
   {
     label: "Coupe",
     icon: "/public/assets/images/coupe.svg",
-    id: "coupe",
+    value: "coupe",
   },
   {
     label: "Hybrid",
     icon: "/public/assets/images/hybrid.svg",
-    id: "hybrid",
+    value: "hybrid",
   },
+];
+
+export const makes = [
+  "Ford",
+  "Honda",
+  "Hyundai",
+  "Infiniti",
+  "Jaguar",
+  "Jeep",
+  "Chrysler",
+  "Citroen",
+  "Cupra",
+  "Dacia",
+  "DS",
+  "Fiat",
+  "Land Rover",
+  "Lexus",
+  "Mercedes-Benz",
+  "Mazda",
+  "MG",
+  "Kia",
+  "Abarth",
+  "Romeo",
+  "Audi",
+  "Bentley",
+  "BMW",
+  "Chevrolet",
+  "Mini",
+  "Mitsubishi",
+  "Nissan",
+  "Peugeot",
+  "Porsche",
+  "Renault",
+  "Toyota",
 ];
 
 export const SearchOptions = [
@@ -107,22 +141,10 @@ export const SearchOptions = [
         label: "Any Make",
         value: "any-make",
       },
-      {
-        label: "Toyota",
-        value: "toyota",
-      },
-      {
-        label: "Honda",
-        value: "honda",
-      },
-      {
-        label: "Ford",
-        value: "ford",
-      },
-      {
-        label: "Chevrolet",
-        value: "chevrolet",
-      },
+      ...makes.map((make) => ({
+        label: make,
+        value: make.toLowerCase(),
+      })),
     ],
   },
   {
@@ -187,31 +209,32 @@ export const StaticPremiumBrands = [
   },
 ];
 
-
-
 export const WhyUs = [
   {
-    label: 'Special Financing Offers',
-    description: "Our stress-free finance department that can find financial solutions to save you money.",
+    label: "Special Financing Offers",
+    description:
+      "Our stress-free finance department that can find financial solutions to save you money.",
     img: "/public/assets/images/f1.svg.svg",
   },
   {
-    label: 'Trusted Car Dealership',
-    description: "Our stress-free finance department that can find financial solutions to save you money.",
+    label: "Trusted Car Dealership",
+    description:
+      "Our stress-free finance department that can find financial solutions to save you money.",
     img: "/public/assets/images/f2.svg.svg",
   },
   {
-    label: 'Transparent Pricing',
-    description: "Our stress-free finance department that can find financial solutions to save you money.",
+    label: "Transparent Pricing",
+    description:
+      "Our stress-free finance department that can find financial solutions to save you money.",
     img: "/public/assets/images/f3.svg.svg",
   },
   {
-    label: 'Expert Car Service',
-    description: "Our stress-free finance department that can find financial solutions to save you money.",
+    label: "Expert Car Service",
+    description:
+      "Our stress-free finance department that can find financial solutions to save you money.",
     img: "/public/assets/images/f4.svg.svg",
   },
-]
-
+];
 
 export const carBrands = [
   "Ford Cars",
@@ -243,53 +266,56 @@ export const carBrands = [
   "Nissan Cars",
   "Peugeot Cars",
   "Porsche Cars",
-  "Renault Cars"
+  "Renault Cars",
 ];
-
-
 
 export const dummyArticles: IArticleCardProps[] = [
   {
     id: "article-001",
-    imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
+    imageUrl:
+      "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
     category: "News",
     author: "Admin",
     date: "June 20, 2025",
-    title: "Mini Cooper S 2025 Unveiled: A Closer Look at the Future of Compact Cars",
+    title:
+      "Mini Cooper S 2025 Unveiled: A Closer Look at the Future of Compact Cars",
   },
   {
     id: "article-002",
-    imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
+    imageUrl:
+      "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
     category: "Review",
     author: "Jane Doe",
     date: "June 18, 2025",
-    title: "First Drive: Experiencing the Nimble Handling of the New Mini Cooper",
+    title:
+      "First Drive: Experiencing the Nimble Handling of the New Mini Cooper",
   },
   {
     id: "article-003",
-    imageUrl: "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
+    imageUrl:
+      "https://hips.hearstapps.com/hmg-prod/images/2025-mini-cooper-s-hardtop-2-door-123-66f2bf63dab9c.jpg?crop=0.561xw:0.473xh;0.246xw,0.341xh&resize=2048:*",
     category: "Tech",
     author: "Tech Enthusiast",
     date: "June 15, 2025",
-    title: "Innovative Infotainment: Inside the Mini Cooper's Next-Gen Tech Suite",
+    title:
+      "Innovative Infotainment: Inside the Mini Cooper's Next-Gen Tech Suite",
   },
-
 ];
 
-export const testimonialData: Testimonial[]  = [
+export const testimonialData: Testimonial[] = [
   {
-    name: 'Ali Tufan',
-    title: 'Designer',
+    name: "Ali Tufan",
+    title: "Designer",
     rating: 5,
     message:
-      'I’d suggest Macklin Motors Nissan Glasgow South to a friend because I had great service from my salesman Patrick and all of the team.',
-    image: 'https://randomuser.me/api/portraits/men/32.jpg', // Replace with your own image
+      "I’d suggest Macklin Motors Nissan Glasgow South to a friend because I had great service from my salesman Patrick and all of the team.",
+    image: "https://randomuser.me/api/portraits/men/32.jpg", // Replace with your own image
   },
   {
-    name: 'Samantha Lee',
-    title: 'Developer',
+    name: "Samantha Lee",
+    title: "Developer",
     rating: 4,
-    message: 'Really satisfied with the support. Highly recommend the team!',
-    image: 'https://randomuser.me/api/portraits/women/45.jpg',
+    message: "Really satisfied with the support. Highly recommend the team!",
+    image: "https://randomuser.me/api/portraits/women/45.jpg",
   },
 ];

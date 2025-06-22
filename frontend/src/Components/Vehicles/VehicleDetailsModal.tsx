@@ -6,6 +6,7 @@ import {
   DialogContent,
   Divider,
   Grid,
+  IconButton,
   Stack,
   Typography,
 } from "@mui/material";
@@ -14,6 +15,7 @@ import { useSearchParams } from "react-router-dom";
 import { useViewPort } from "../../Hooks";
 import { api } from "../../http";
 import type { Vehicle } from "../../utils";
+import { Close } from "@mui/icons-material";
 
 export const VehicleDetailsModel = ({
   onClose,
@@ -44,9 +46,14 @@ export const VehicleDetailsModel = ({
         },
       }}
     >
-      <Typography variant="h3">
-        {vehicle?.year} {vehicle?.make} {vehicle?.model}
-      </Typography>
+      <Stack direction="row" justifyContent="space-between" width="100%" mb={2}>
+        <Typography variant="h3">
+          {vehicle?.year} {vehicle?.make} {vehicle?.model}
+        </Typography>
+        <IconButton onClick={onClose} sx={{ alignSelf: "center" }}>
+          <Close />
+        </IconButton>
+      </Stack>
 
       {isFetching ? (
         <CircularProgress sx={{ alignSelf: "center" }} />
