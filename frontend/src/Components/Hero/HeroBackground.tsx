@@ -7,57 +7,64 @@ import {
   MenuItem,
   Slider,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import {
   CarTypeOptions,
   FeaturedCarModels,
   SearchOptions,
+  type IFilter,
   type TCarType,
 } from "../../utils";
 import { useViewPort } from "../../Hooks";
+import { useGlobalProvider } from "../../Providers/GlobalProvider";
 export const HeroBackground = () => {
-  const { isMobile } = useViewPort(); 
+  const { isMobile } = useViewPort();
+  const { handleSearchVehicles } = useGlobalProvider();
 
   return (
     <Stack
       width="100%"
-      minHeight={isMobile ? "85dvh" : "80dvh"} 
+      minHeight={isMobile ? "85dvh" : "80dvh"}
       position="relative"
       justifyContent="center"
       alignItems="center"
       sx={{
-        backgroundImage: 'url(/public/assets/images/dashboard-car.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center', 
-        backgroundRepeat: 'no-repeat', 
-        overflow: 'hidden', 
+        backgroundImage: "url(/public/assets/images/dashboard-car.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        overflow: "hidden",
       }}
     >
       <Stack
         direction="column"
-        gap={isMobile ? 2 : 4} 
+        gap={isMobile ? 2 : 4}
         justifyContent="center"
         alignItems="center"
         width="100%"
         position={"absolute"}
-        px={isMobile ? 2 : 0} 
+        px={isMobile ? 2 : 0}
         sx={{
           ".MuiTypography-root": {
             color: "#fff",
           },
-          maxWidth: isMobile ? '90%' : '70%',
+          maxWidth: isMobile ? "90%" : "70%",
         }}
       >
-        <Typography variant={isMobile ? "body2" : "body1"}> 
+        <Typography variant={isMobile ? "body2" : "body1"}>
           Find Cars for sale and for rent near you
         </Typography>
-        <Typography variant={isMobile ? "h4" : "h1"} fontWeight={700} textAlign='center'> 
+        <Typography
+          variant={isMobile ? "h4" : "h1"}
+          fontWeight={700}
+          textAlign="center"
+        >
           Find Your Perfect Car
         </Typography>
-        <SearchCars />
-        <Typography pt={3} variant={isMobile ? "body2" : "body1"}> 
+        <SearchCars handleSearchVehicles={handleSearchVehicles} />
+        <Typography pt={3} variant={isMobile ? "body2" : "body1"}>
           Or browse featured models
         </Typography>
         <Stack
@@ -66,25 +73,34 @@ export const HeroBackground = () => {
           justifyContent="center"
           alignItems="center"
           width="70%"
-          flexWrap="wrap" 
+          flexWrap="wrap"
+          zIndex={100}
         >
           {FeaturedCarModels.map((model) => {
             return (
               <Stack
                 key={model.id}
                 direction="row"
-                gap={isMobile ? 1 : 2} 
+                gap={isMobile ? 1 : 2}
                 alignItems="center"
                 justifyContent="center"
                 borderRadius={12}
                 bgcolor="#FFFFFF2E"
                 p={isMobile ? 1 : 2}
-                py={isMobile ? 0.5 : 1} 
-                flex={isMobile ? '1 1 45%' : 1}
-                maxWidth={isMobile ? '48%' : 'none'} 
+                py={isMobile ? 0.5 : 1}
+                flex={isMobile ? "1 1 45%" : 1}
+                maxWidth={isMobile ? "48%" : "none"}
+                onClick={() =>
+                  handleSearchVehicles({
+                    bodyType: model.label,
+                  })
+                }
+                sx={{cursor:'pointer'}}
               >
                 <Box component="img" src={model.icon} width={26} height={26} />
-                <Typography variant={isMobile ? "caption" : "body1"}>{model.label}</Typography>
+                <Typography variant={isMobile ? "caption" : "body1"}>
+                  {model.label}
+                </Typography>
               </Stack>
             );
           })}
@@ -94,8 +110,11 @@ export const HeroBackground = () => {
   );
 };
 
-
-const SearchCars = () => {
+const SearchCars = ({
+  handleSearchVehicles,
+}: {
+  handleSearchVehicles: (filters: IFilter) => void;
+}) => {
   const [carType, setCarType] = useState<TCarType>("All");
   const { isMobile } = useViewPort();
 
@@ -108,9 +127,9 @@ const SearchCars = () => {
       justifyContent="center"
       alignItems="center"
       zIndex={100}
-      px={isMobile ? 2 : 0} 
+      px={isMobile ? 2 : 0}
     >
-      <Stack  direction="row" gap={isMobile ? 1 : 3}> 
+      <Stack direction="row" gap={isMobile ? 1 : 3}>
         {CarTypeOptions.map((type) => (
           <Stack
             key={type}
@@ -121,16 +140,22 @@ const SearchCars = () => {
               borderBottom: carType === type ? "2px solid #fff" : "transparent",
             }}
           >
-            <Typography color="#fff" variant={isMobile ? "body2" : "body1"}>{type}</Typography> 
+            <Typography color="#fff" variant={isMobile ? "body2" : "body1"}>
+              {type}
+            </Typography>
           </Stack>
         ))}
       </Stack>
-      <CarSearchBar />
+      <CarSearchBar handleSearchVehicles={handleSearchVehicles} />
     </Stack>
   );
 };
 
-const CarSearchBar = () => {
+const CarSearchBar = ({
+  handleSearchVehicles,
+}: {
+  handleSearchVehicles: (filters: IFilter) => void;
+}) => {
   const [anchorEls, setAnchorEls] = useState<
     Record<string, HTMLElement | null>
   >({});
@@ -139,8 +164,8 @@ const CarSearchBar = () => {
     model: "Any Model",
     prices: [0, 100000],
   });
-  const { isMobile } = useViewPort(); 
 
+  const { isMobile } = useViewPort();
 
   const MIN_PRICE = 0;
   const MAX_PRICE = 100000;
@@ -168,29 +193,39 @@ const CarSearchBar = () => {
     return `$${min.toLocaleString()} - $${max.toLocaleString()}`;
   };
 
+  const handleSubmit = () => {
+    const searchFilters: IFilter = {
+      make: filters.makes === "Any Make" ? undefined : filters.makes,
+      model: filters.model === "Any Model" ? undefined : filters.model,
+      maxPrice: filters.prices[1] === MAX_PRICE ? undefined : filters.prices[1],
+      minPrice: filters.prices[0] === MIN_PRICE ? undefined : filters.prices[0],
+    };
+    handleSearchVehicles(searchFilters);
+  };
+
   return (
     <Stack
       bgcolor="primary.main"
       direction={isMobile ? "column" : "row"}
-      borderRadius="99px" 
-      sx={{ borderRadius: isMobile ? '16px' : '99px' }}
+      borderRadius="99px"
+      sx={{ borderRadius: isMobile ? "16px" : "99px" }}
       alignItems="center"
       justifyContent="space-between"
       width="100%"
-      gap={isMobile ? 1 : 2} 
+      gap={isMobile ? 1 : 2}
       px={isMobile ? 1.5 : 2.5}
-      py={1.5 } 
+      py={1.5}
     >
       {SearchOptions.map((option) => (
-        <Box key={option.value} width={isMobile ? '100%' : 'auto'}> 
+        <Box key={option.value} width={isMobile ? "100%" : "auto"}>
           <Button
             sx={{
               textTransform: "none",
               borderRadius: "30px",
-              px: isMobile ? 1.5 : 2, 
+              px: isMobile ? 1.5 : 2,
               color: "primary.contrastText",
-              width: isMobile ? '100%' : 'auto',
-              justifyContent: isMobile ? 'space-between' : 'center', 
+              width: isMobile ? "100%" : "auto",
+              justifyContent: isMobile ? "space-between" : "center",
             }}
             onClick={(e) => handleClick(e, option.value)}
             endIcon={
@@ -227,15 +262,15 @@ const CarSearchBar = () => {
         </Box>
       ))}
 
-      <Box width={isMobile ? '100%' : 'auto'}> 
+      <Box width={isMobile ? "100%" : "auto"}>
         <Button
           sx={{
             textTransform: "none",
             borderRadius: "30px",
-            px: isMobile ? 1.5 : 2, 
+            px: isMobile ? 1.5 : 2,
             color: "primary.contrastText",
-            width: isMobile ? '100%' : 'auto',
-            justifyContent: isMobile ? 'space-between' : 'center',
+            width: isMobile ? "100%" : "auto",
+            justifyContent: isMobile ? "space-between" : "center",
           }}
           onClick={(e) => handleClick(e, "prices")}
           endIcon={
@@ -288,10 +323,11 @@ const CarSearchBar = () => {
           py: 1.5,
           textTransform: "none",
           backgroundColor: "info.main",
-          width: isMobile ? '100%' : 'auto', 
-          mt: isMobile ? 1 : 0 
+          width: isMobile ? "100%" : "auto",
+          mt: isMobile ? 1 : 0,
         }}
         startIcon={<Search />}
+        onClick={handleSubmit}
       >
         Search Cars
       </Button>

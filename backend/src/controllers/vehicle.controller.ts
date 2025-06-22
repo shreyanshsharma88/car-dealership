@@ -3,9 +3,14 @@ import { findVehicles } from "../repository/vehicle.repository";
 
 export const getVehicles = async (req: Request, res: Response) => {
   try {
-    const { make, model, year, minPrice, maxPrice, bodyType } = req.query;
+    const { make, model, year, minPrice, maxPrice, bodyType, isNew } =
+      req.query;
 
     const filter: any = {};
+
+    if (isNew && (isNew === "true" || isNew === "false")) {
+      filter.isNew = isNew === "true";
+    }
 
     if (make) {
       filter.make = make;
@@ -44,7 +49,10 @@ export const getVehicles = async (req: Request, res: Response) => {
   }
 };
 
-export const getVehicleDetails = async (req: Request, res: Response): Promise<any> => {
+export const getVehicleDetails = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const vehicleId = req.params.id;
 

@@ -1,12 +1,12 @@
 import { ArrowOutward } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
-import { useViewPort } from "../../Hooks";
-import { dummyVehicles, type VehicleCardProps } from "../../utils";
-import { GenericCarousel } from "./VehicleCarousel";
-import { VehicleCard } from "./VehicleCard";
+import { useGetVehicles, useViewPort } from "../../Hooks";
 import { useGlobalProvider } from "../../Providers/GlobalProvider";
+import { type VehicleCardProps } from "../../utils";
+import { VehicleCard } from "./VehicleCard";
+import { GenericCarousel } from "./VehicleCarousel";
 
 const LightModeVehicleCard: React.FC<VehicleCardProps> = (props) => {
   const { handleViewCarDetails } = useGlobalProvider();
@@ -21,6 +21,17 @@ const LightModeVehicleCard: React.FC<VehicleCardProps> = (props) => {
 export const Vehicles = () => {
   const { isMobile } = useViewPort();
   const [selectedCarType, setSelectedCarType] = useState<TCarType>("In Stock");
+  const newCarParamValue = useMemo(() => {
+    if (selectedCarType === "In Stock") return undefined;
+    if (selectedCarType === "New Cars") return true;
+    if (selectedCarType === "Used Cars") return false;
+    return undefined;
+  }, [selectedCarType]);
+  const { data } = useGetVehicles({
+    params: {
+      isNew: newCarParamValue,
+    },
+  });
 
   return (
     <Stack
@@ -81,7 +92,10 @@ export const Vehicles = () => {
         ))}
       </Stack>
 
-      <GenericCarousel items={dummyVehicles} RenderComponent={LightModeVehicleCard} />
+      <GenericCarousel
+        items={data ?? []}
+        RenderComponent={LightModeVehicleCard}
+      />
     </Stack>
   );
 };

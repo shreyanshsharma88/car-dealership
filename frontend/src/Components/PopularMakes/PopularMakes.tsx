@@ -2,8 +2,8 @@ import { ArrowOutward } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useViewPort } from "../../Hooks";
-import { dummyVehicles, type VehicleCardProps } from "../../utils";
+import { useGetVehicles, useViewPort } from "../../Hooks";
+import { type VehicleCardProps } from "../../utils";
 import { VehicleCard } from "../Vehicles";
 import { GenericCarousel } from "../Vehicles/VehicleCarousel";
 
@@ -17,6 +17,12 @@ export const PopularMakes = () => {
   const [selectedMake, setSelectedMake] = useState<TMake>("Audi");
 
   const { isMobile } = useViewPort();
+
+  const { data } = useGetVehicles({
+      params: {
+       make: selectedMake,
+      },
+    });
   return (
     <Stack width="100%" gap={2}>
       <Stack
@@ -81,7 +87,7 @@ export const PopularMakes = () => {
       </Stack>
       <GenericCarousel
         RenderComponent={DarkModeVehicleCard}
-        items={dummyVehicles}
+        items={data ?? []}
         mode="dark"
       />
     </Stack>

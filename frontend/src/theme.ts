@@ -70,6 +70,13 @@ export const customTheme = () => {
       MuiTypography: {
         styleOverrides: TypographyOverrides(),
       },
+      MuiDialog: {
+        styleOverrides: {
+          paper: {
+            background: "rgba(255, 255, 255)",
+          },
+        },
+      },
     },
   });
 };

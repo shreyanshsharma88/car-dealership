@@ -6,24 +6,10 @@ export interface IUserDetails {
 
 export type TCarType = "All" | "New" | "Used";
 
-export interface VehicleCardProps {
-  id: string;
-  imageUrl: string;
-  make: string;
-  model: string;
-  year: number;
-  description: string;
-  mileage: number;
-  fuelType: "Petrol" | "Diesel" | "Electric" | "Hybrid";
-  transmission: "Automatic" | "Manual";
-  price: number;
-  originalPrice?: number;
+export interface VehicleCardProps extends Vehicle {
   onViewDetails: (vehicleId: string) => void;
-  onBookmarkToggle?: (vehicleId: string, isBookmarked: boolean) => void;
-  isBookmarked?: boolean;
   mode?: "light" | "dark";
 }
-
 export interface IFooterBoxes {
   label: string;
   description: string;
@@ -57,6 +43,7 @@ export interface GlobalModalContextType {
   userDetails: IUserDetails | null;
   handleSubmitListing: () => void;
   handleViewCarDetails: (vehicleId: string) => void;
+  handleSearchVehicles: (filters: IFilter) => void;
 }
 
 export interface IUser {
@@ -93,4 +80,14 @@ export interface Vehicle {
   isNew: boolean;
   postedDate: string;
   updatedAt: string;
+}
+
+export interface IFilter {
+  make?: string;
+  model?: string;
+  year?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  bodyType?: string;
+  isNew?: boolean;
 }

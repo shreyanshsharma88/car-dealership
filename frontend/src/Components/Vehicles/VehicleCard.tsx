@@ -18,41 +18,23 @@ import {
 import React from "react";
 import type { VehicleCardProps } from "../../utils";
 
-export const VehicleCard: React.FC<VehicleCardProps> = ({
-  id,
-  imageUrl,
-  make,
-  model,
-  year,
-  description,
-  mileage,
-  fuelType,
-  transmission,
-  price,
-  originalPrice,
-  onViewDetails,
-
-  mode = "light",
-}) => {
+export const VehicleCard = (props: VehicleCardProps) => {
+  const {
+    make,
+    model,
+    year,
+    mileage,
+    fuelType,
+    transmission,
+    price,
+    originalPrice,
+    onViewDetails,
+    images,
+    id,
+    mode = "light",
+  } = props;
   if (mode === "dark") {
-    return (
-      <DarkVehicleCard
-        {...{
-          id,
-          imageUrl,
-          make,
-          model,
-          year,
-          mileage,
-          fuelType,
-          transmission,
-          price,
-          originalPrice,
-          onViewDetails,
-          description,
-        }}
-      />
-    );
+    return <DarkVehicleCard {...props} />;
   }
   const isGreatPrice = originalPrice && price < originalPrice;
 
@@ -74,7 +56,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
       <Box sx={{ position: "relative", height: 180, width: "100%" }}>
         <Box
           component="img"
-          src={imageUrl}
+          src={images?.[0] || "/placeholder-car.jpg"}
           alt={`${make} ${model}`}
           sx={{
             width: "100%",
@@ -186,8 +168,6 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 };
 
 const DarkVehicleCard: React.FC<Omit<VehicleCardProps, "mode">> = ({
-  id,
-  imageUrl,
   make,
   model,
   year,
@@ -198,8 +178,10 @@ const DarkVehicleCard: React.FC<Omit<VehicleCardProps, "mode">> = ({
   price,
   originalPrice,
   onViewDetails,
+  images,
+  id,
 }) => {
-  const isSale = originalPrice && price < originalPrice; 
+  const isSale = originalPrice && price < originalPrice;
 
   return (
     <Card
@@ -216,15 +198,15 @@ const DarkVehicleCard: React.FC<Omit<VehicleCardProps, "mode">> = ({
         m: 1,
         bgcolor: "secondary.contrastText",
         color: "#fff",
-        height: '300px'
+        height: "300px",
       }}
     >
-      <Stack direction="row" sx={{ height: { xs: 200, sm: '100%' } }}>
+      <Stack direction="row" sx={{ height: { xs: 200, sm: "100%" } }}>
         {" "}
         <Box sx={{ flex: "1 1 40%", position: "relative" }}>
           <Box
             component="img"
-            src={imageUrl}
+            src={images?.[0]}
             alt={`${make} ${model}`}
             sx={{
               width: "100%",
@@ -272,12 +254,17 @@ const DarkVehicleCard: React.FC<Omit<VehicleCardProps, "mode">> = ({
           }}
         >
           <Stack gap={1}>
-            <Typography variant="h6" fontWeight="bold" color="#fff" sx={{
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              maxWidth: "200px",
-            }}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              color="#fff"
+              sx={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                maxWidth: "200px",
+              }}
+            >
               {make} {model} – {year}
             </Typography>
             <Typography
@@ -335,7 +322,7 @@ const DarkVehicleCard: React.FC<Omit<VehicleCardProps, "mode">> = ({
               </Typography>
               <Button
                 variant="text"
-                onClick={() => onViewDetails(_id)}
+                onClick={() => onViewDetails(id)}
                 endIcon={<ArrowOutward />}
                 sx={{
                   textTransform: "none",

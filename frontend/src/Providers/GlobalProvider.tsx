@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createContext,
   useCallback,
@@ -8,9 +8,13 @@ import {
   useState,
 } from "react";
 import { useSearchParams } from "react-router-dom";
-import { LoginSignupContainer, VehicleDetailsModel } from "../Components";
+import {
+  LoginSignupContainer,
+  SearchedVehicles,
+  VehicleDetailsModel,
+} from "../Components";
 import { api } from "../http";
-import type { GlobalModalContextType, IUser } from "../utils";
+import type { GlobalModalContextType, IFilter, IUser } from "../utils";
 
 const GlobalContext = createContext<GlobalModalContextType | undefined>(
   undefined
@@ -21,6 +25,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [mode, setMode] = useState<"login" | "signup" | null>(null);
+  const [showSearchResults, setShowSearchResults] = useState(false);
   const [userDetails, setUserDetails] = useState<IUser | null>(null);
   const token = localStorage.getItem("token");
 
@@ -29,7 +34,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
     queryFn: async () => {
       const data = await api.getUserDetails();
       setUserDetails(data);
-      return data.data;
+      return data;
     },
   });
 
@@ -63,6 +68,22 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       return newParams;
     });
   }, [openAuthModal, setSearchParams, token, userDetails]);
+
+  const getVehiclesMutation = useMutation({
+    mutationKey: ["vehicles"],
+    mutationFn: (filters: IFilter) => api.getVehicles(filters),
+    onSuccess: () => {
+      setShowSearchResults(true);
+    },
+  });
+
+  const handleSearchVehicles = useCallback(
+    (filters: IFilter) => {
+      getVehiclesMutation.mutate(filters);
+      return getVehiclesMutation.data;
+    },
+    [getVehiclesMutation]
+  );
 
   const isLoggedIn = useMemo(() => {
     return !!userDetails && !!token;
@@ -104,6 +125,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       userDetails,
       handleSubmitListing,
       handleViewCarDetails,
+      handleSearchVehicles,
     }),
     [
       closeAuthModal,
@@ -112,6 +134,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       userDetails,
       handleSubmitListing,
       handleViewCarDetails,
+      handleSearchVehicles,
     ]
   );
 
@@ -119,6 +142,12 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
     <GlobalContext.Provider value={value}>
       {children}
       <>
+        <SearchedVehicles
+          onClose={() => setShowSearchResults(false)}
+          open={showSearchResults}
+          vehicles={getVehiclesMutation.data}
+          loading={getVehiclesMutation.isPending}
+        />
         <VehicleDetailsModel
           open={vehicleModalOpen}
           onClose={() => {

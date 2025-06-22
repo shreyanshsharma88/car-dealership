@@ -1,4 +1,4 @@
-import type { Vehicle } from "../utils";
+import type { IFilter, Vehicle } from "../utils";
 import authAxios from "./axios";
 
 export const api = {
@@ -35,18 +35,12 @@ export const api = {
     const res = await authAxios.get("/auth/user");
     return res.data;
   },
-  getVehicles: async (params: {
-    make?: string;
-    model?: string;
-    year?: number;
-    minPrice?: number;
-    maxPrice?: number;
-    bodyType?: string;
-  }) => {
+  getVehicles: async (params: IFilter) => {
     const urlParams = new URLSearchParams();
     if (params.make) urlParams.append("make", params.make);
     if (params.model) urlParams.append("model", params.model);
     if (params.year) urlParams.append("year", params.year.toString());
+    if (params.isNew) urlParams.append("isNew", params.isNew.toString());
     if (params.minPrice)
       urlParams.append("minPrice", params.minPrice.toString());
     if (params.maxPrice)
@@ -57,10 +51,10 @@ export const api = {
   },
   getVehicleDetails: async (vehicleId: string) => {
     const res = await authAxios.get(`/vehicles/${vehicleId}`);
-    return res.data as Vehicle;
+    return res.data;
   },
   submitVehicleListing: async (vehicleData: any) => {
     const res = await authAxios.post("/vehicles", vehicleData);
     return res.data;
-  }
+  },
 };
