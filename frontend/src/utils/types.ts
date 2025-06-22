@@ -7,7 +7,7 @@ export interface IUserDetails {
 export type TCarType = "All" | "New" | "Used";
 
 export interface VehicleCardProps {
-  _id: string;
+  id: string;
   imageUrl: string;
   make: string;
   model: string;
@@ -49,4 +49,19 @@ export interface Testimonial {
   rating: number;
   message: string;
   image: string;
+}
+
+export interface GlobalModalContextType {
+  openAuthModal: (mode?: "login" | "signup") => void;
+  closeAuthModal: () => void;
+  isOpen: boolean;
+  mode: "login" | "signup" | null;
+  userDetails: IUserDetails | null;
+  handleSubmitListing: () => void;
+}
+
+export interface IUser {
+  username: string;
+  email: string;
+  id: string;
 }

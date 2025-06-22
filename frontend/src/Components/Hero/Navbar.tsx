@@ -7,18 +7,20 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { NavbarStaticOptions, type IUserDetails } from "../../utils";
+import { NavbarStaticOptions, type IUser } from "../../utils";
 import { useState } from "react";
 import { ArrowDropDown, Person } from "@mui/icons-material";
 import { useViewPort } from "../../Hooks";
+import { useGlobalProvider } from "../../Providers/GlobalProvider";
 
 export const Navbar = ({
   userDetails,
-  handleSignin,
+  handleSubmitListing
 }: {
-  userDetails: null | IUserDetails;
-  handleSignin: () => void;
+  userDetails: null | IUser;
+  handleSubmitListing: () => void;
 }) => {
+  const{openAuthModal} = useGlobalProvider()
   const [anchorEls, setAnchorEls] = useState<
     Record<string, HTMLElement | null>
   >({});
@@ -36,7 +38,7 @@ export const Navbar = ({
   };
   const handleProfileIconClick = () => {
     if (!userDetails) {
-      handleSignin();
+      openAuthModal('login')
     }
   };
 
@@ -118,9 +120,9 @@ export const Navbar = ({
               </Stack>
             );
           })}
-          <Stack direction="row" gap={1} alignItems='center'>
+          <Stack sx={{cursor:'pointer'}} onClick={handleProfileIconClick} direction="row" gap={1} alignItems='center'>
             <Person
-              onClick={handleProfileIconClick}
+            
               sx={{
                 cursor: "pointer",
                 "&:hover": {
@@ -129,11 +131,11 @@ export const Navbar = ({
                 color: userDetails ? "primary.main" : "#fff",
               }}
             />
-            <Typography color="#fff" variant="body1" fontSize='0.875rem'>
+            <Typography  color="#fff" variant="body1" fontSize='0.875rem'>
               {userDetails?.username || "Sign in"}
             </Typography>
           </Stack>
-          <Button sx={{ borderRadius: "30px" }} variant="outlined">
+          <Button onClick={handleSubmitListing} sx={{ borderRadius: "30px" }} variant="outlined">
             Submit Listing
           </Button>
         </Stack>

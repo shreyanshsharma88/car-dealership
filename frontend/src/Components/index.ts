@@ -1,4 +1,11 @@
 // @index(['./*.{ts,tsx}', './*/index.{ts,tsx}'], f => `export * from '${f.path.replace(/\/index$/, '')}'`)
+export * from './Blog'
+export * from './Details'
+export * from './Footer'
+export * from './GutteredContainer'
 export * from './Hero'
+export * from './PopularMakes'
 export * from './PremiumBrands'
 export * from './Render'
+export * from './UserAuth'
+export * from './Vehicles'

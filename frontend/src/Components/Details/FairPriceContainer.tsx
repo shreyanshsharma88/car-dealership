@@ -1,9 +1,11 @@
 import { ArrowOutward, CheckCircleOutline } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useViewPort } from "../../Hooks";
+import { useGlobalProvider } from "../../Providers/GlobalProvider";
 
 export const FairPriceContainer = () => {
   const { isMobile } = useViewPort();
+  const { handleSubmitListing } = useGlobalProvider();
   return (
     <Stack
       direction={isMobile ? "column" : "row"}
@@ -101,7 +103,7 @@ export const FairPriceContainer = () => {
             },
           }}
           endIcon={<ArrowOutward />}
-          onClick={() => alert("Get Started (not implemented)")}
+          onClick={handleSubmitListing}
         >
           Get Started
         </Button>

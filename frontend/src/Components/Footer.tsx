@@ -9,6 +9,7 @@ import {
     Typography
 } from "@mui/material";
 import { useViewPort } from "../Hooks";
+import { useGlobalProvider } from "../Providers/GlobalProvider";
 
 const footerData = [
   {
@@ -56,6 +57,7 @@ const socialIcons = [Facebook, Twitter, Instagram, LinkedIn];
 
 export default function Footer() {
     const {isDesktop} = useViewPort()
+    const {userDetails} = useGlobalProvider()
   return (
     <Stack p={2} alignItems='center' zIndex={100} sx={{ color: "white", py:isDesktop ? 15 : 4 }}>
       <Stack width={isDesktop ? '70%' : '100%'}  alignSelf='center' gap={4}>
@@ -79,7 +81,7 @@ export default function Footer() {
               Receive pricing updates, shopping tips & more!
             </Typography>
           </Grid>
-          <Grid
+          {!userDetails && <Grid
             size={{
               xs: 12,
               md: 6,
@@ -114,7 +116,7 @@ export default function Footer() {
                 Sign Up
               </Button>
             </Stack>
-          </Grid>
+          </Grid>}
         </Grid>
 
         <Grid container spacing={4} justifyContent="space-between">
