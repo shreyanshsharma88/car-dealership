@@ -43,3 +43,27 @@ export const getVehicles = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const getVehicleDetails = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const vehicleId = req.params.id;
+
+    if (!vehicleId) {
+      return res.status(400).json({ message: "Vehicle ID is required" });
+    }
+
+    const vehicle = await findVehicles({ _id: vehicleId });
+
+    if (!vehicle || vehicle.length === 0) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    res.status(200).json(vehicle[0]);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "An unknown error occurred" });
+    }
+  }
+};

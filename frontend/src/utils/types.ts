@@ -42,7 +42,6 @@ export interface IArticleCardProps {
   title: string;
 }
 
-
 export interface Testimonial {
   name: string;
   title: string;
@@ -54,14 +53,44 @@ export interface Testimonial {
 export interface GlobalModalContextType {
   openAuthModal: (mode?: "login" | "signup") => void;
   closeAuthModal: () => void;
-  isOpen: boolean;
   mode: "login" | "signup" | null;
   userDetails: IUserDetails | null;
   handleSubmitListing: () => void;
+  handleViewCarDetails: (vehicleId: string) => void;
 }
 
 export interface IUser {
   username: string;
   email: string;
   id: string;
+}
+
+export interface Vehicle {
+  id: string;
+  make: string;
+  model: string;
+  year: number;
+  price: number;
+  originalPrice: number;
+  mileage: number;
+  condition: "New" | "Used";
+  bodyType:
+    | "Sedan"
+    | "SUV"
+    | "Truck"
+    | "Coupe"
+    | "Convertible"
+    | "Hatchback"
+    | "Minivan"
+    | "Hybrid";
+  color: string;
+  transmission: "Automatic" | "Manual";
+  fuelType: "Petrol" | "Diesel" | "Electric" | "Hybrid";
+  description: string;
+  images: string[];
+  VIN: string;
+  status: "Available" | "Sold" | "Pending";
+  isNew: boolean;
+  postedDate: string;
+  updatedAt: string;
 }

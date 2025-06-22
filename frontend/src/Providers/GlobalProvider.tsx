@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useSearchParams } from "react-router-dom";
-import { LoginSignupContainer } from "../Components";
+import { LoginSignupContainer, VehicleDetailsModel } from "../Components";
 import { api } from "../http";
 import type { GlobalModalContextType, IUser } from "../utils";
 
@@ -64,6 +64,29 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, [openAuthModal, setSearchParams, token, userDetails]);
 
+  const isLoggedIn = useMemo(() => {
+    return !!userDetails && !!token;
+  }, [token, userDetails]);
+
+  const handleViewCarDetails = useCallback(
+    (vehicleId: string) => {
+      if (!isLoggedIn) {
+        openAuthModal("login");
+        return;
+      }
+      setSearchParams((prev) => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set("vehicleId", vehicleId);
+        return newParams;
+      });
+    },
+    [isLoggedIn, openAuthModal, setSearchParams]
+  );
+
+  const vehicleModalOpen = useMemo(() => {
+    return searchParams.has("vehicleId") && isLoggedIn;
+  }, [isLoggedIn, searchParams]);
+
   useEffect(() => {
     const param = searchParams.get("auth");
     if (param === "login" || param === "signup") {
@@ -73,24 +96,22 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [searchParams]);
 
-  const isOpen = !!mode;
-
   const value = useMemo(
     () => ({
       openAuthModal,
       closeAuthModal,
-      isOpen,
       mode,
       userDetails,
       handleSubmitListing,
+      handleViewCarDetails,
     }),
     [
       closeAuthModal,
-      isOpen,
       mode,
       openAuthModal,
       userDetails,
       handleSubmitListing,
+      handleViewCarDetails,
     ]
   );
 
@@ -98,7 +119,17 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
     <GlobalContext.Provider value={value}>
       {children}
       <>
-        <LoginSignupContainer open={isOpen} onClose={closeAuthModal} />
+        <VehicleDetailsModel
+          open={vehicleModalOpen}
+          onClose={() => {
+            setSearchParams((prev) => {
+              const newParams = new URLSearchParams(prev);
+              newParams.delete("vehicleId");
+              return newParams;
+            });
+          }}
+        />
+        <LoginSignupContainer open={!!mode} onClose={closeAuthModal} />
       </>
     </GlobalContext.Provider>
   );

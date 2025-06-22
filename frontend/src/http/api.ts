@@ -1,3 +1,4 @@
+import type { Vehicle } from "../utils";
 import authAxios from "./axios";
 
 export const api = {
@@ -54,4 +55,12 @@ export const api = {
     const res = await authAxios.get(`/vehicles?${urlParams.toString()}`);
     return res.data;
   },
+  getVehicleDetails: async (vehicleId: string) => {
+    const res = await authAxios.get(`/vehicles/${vehicleId}`);
+    return res.data as Vehicle;
+  },
+  submitVehicleListing: async (vehicleData: any) => {
+    const res = await authAxios.post("/vehicles", vehicleData);
+    return res.data;
+  }
 };

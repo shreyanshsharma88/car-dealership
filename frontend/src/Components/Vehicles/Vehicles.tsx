@@ -3,9 +3,21 @@ import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useViewPort } from "../../Hooks";
-import { dummyVehicles } from "../../utils";
+import { dummyVehicles, type VehicleCardProps } from "../../utils";
 import { GenericCarousel } from "./VehicleCarousel";
 import { VehicleCard } from "./VehicleCard";
+import { useGlobalProvider } from "../../Providers/GlobalProvider";
+
+const LightModeVehicleCard: React.FC<VehicleCardProps> = (props) => {
+  const { handleViewCarDetails } = useGlobalProvider();
+  return (
+    <VehicleCard
+      {...props}
+      mode="light"
+      onViewDetails={(id) => handleViewCarDetails(id)}
+    />
+  );
+};
 export const Vehicles = () => {
   const { isMobile } = useViewPort();
   const [selectedCarType, setSelectedCarType] = useState<TCarType>("In Stock");
@@ -16,7 +28,6 @@ export const Vehicles = () => {
       gap={isMobile ? 2 : 3}
       justifyContent="center"
       alignItems="center"
-     
     >
       <Stack
         direction="row"
@@ -70,10 +81,7 @@ export const Vehicles = () => {
         ))}
       </Stack>
 
-      <GenericCarousel
-        items={dummyVehicles}
-        RenderComponent={VehicleCard}
-      />
+      <GenericCarousel items={dummyVehicles} RenderComponent={LightModeVehicleCard} />
     </Stack>
   );
 };

@@ -19,7 +19,7 @@ import React from "react";
 import type { VehicleCardProps } from "../../utils";
 
 export const VehicleCard: React.FC<VehicleCardProps> = ({
-  _id,
+  id,
   imageUrl,
   make,
   model,
@@ -38,7 +38,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
     return (
       <DarkVehicleCard
         {...{
-          _id,
+          id,
           imageUrl,
           make,
           model,
@@ -169,7 +169,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
           </Typography>
           <Button
             variant="text"
-            onClick={() => onViewDetails(_id)}
+            onClick={() => onViewDetails(id)}
             endIcon={<ArrowOutward />}
             sx={{
               textTransform: "none",
@@ -186,7 +186,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
 };
 
 const DarkVehicleCard: React.FC<Omit<VehicleCardProps, "mode">> = ({
-  _id,
+  id,
   imageUrl,
   make,
   model,
