@@ -313,6 +313,7 @@ const CarSearchBar = ({
               step={1000}
               min={0}
               max={100000}
+              color="info"
             />
             <Typography variant="caption" color="primary.contrastText">
               ${filters.prices[0].toLocaleString()} – $
