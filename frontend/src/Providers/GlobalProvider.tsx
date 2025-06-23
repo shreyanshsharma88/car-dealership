@@ -117,6 +117,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
     } else {
       setMode(null);
     }
+   
   }, [searchParams]);
 
   const value = useMemo(
@@ -172,7 +173,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
             });
           }}
         />
-        <LoginSignupContainer open={!!mode} onClose={closeAuthModal} />
+        <LoginSignupContainer open={!!mode} onClose={closeAuthModal} mode={searchParams.get('auth') as 'login' | 'signup'} />
       </>
     </GlobalContext.Provider>
   );

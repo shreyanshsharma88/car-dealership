@@ -1,15 +1,11 @@
 import { Router } from "express";
-import {
-  addVehicle,
-  getVehicleDetails,
-  getVehicles,
-} from "../controllers/vehicle.controller";
+import { Controllers } from "../controllers";
 
 export const VehicleRoutes = Router();
 export const ProtectedVehicleRoutes = Router();
 
-VehicleRoutes.get("/vehicles", getVehicles);
+VehicleRoutes.get("/vehicles", Controllers.Vehicle.getVehicles);
 
-VehicleRoutes.get("/vehicles/:id", getVehicleDetails);
+VehicleRoutes.get("/vehicles/:id", Controllers.Vehicle.getVehicleDetails);
 
-ProtectedVehicleRoutes.post("/vehicles", addVehicle);
+ProtectedVehicleRoutes.post("/vehicles", Controllers.Vehicle.addVehicle);

@@ -5,18 +5,23 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Login } from "./Login";
 import { Signup } from "./Signup";
 
 export const LoginSignupContainer = ({
   open,
   onClose,
+  mode,
 }: {
   open: boolean;
   onClose: () => void;
+  mode: "login" | "signup";
 }) => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(mode === "login");
+  useEffect(() => {
+    setIsLogin(mode === "login");
+  }, [mode]);
 
   return (
     <Dialog

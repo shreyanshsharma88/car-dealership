@@ -1,6 +1,8 @@
 import { InquiryModel } from "../models/inquiry.model";
 import { InquiryInput } from "../utils/types";
 
-export const createInquiry = async (inquiry: InquiryInput) => {
-    return await InquiryModel.create(inquiry);
+export class InquiryRepository {
+    static async createInquiry(inquiry: InquiryInput) {
+        return await InquiryModel.create(inquiry);
+    }
 }

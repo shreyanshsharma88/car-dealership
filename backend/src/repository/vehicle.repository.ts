@@ -1,17 +1,20 @@
 import { VehicleModel } from "../models/vehicle.model";
 
-export const findVehicles = async (filter: any) => {
-  return await VehicleModel.find(filter);
-};
 
-export const createVehicle = async (vehicleData: any) => {
-  return await VehicleModel.create(vehicleData);
-}
+export class VehicleRepository {
+  static async findVehicles(filter: any) {
+    return await VehicleModel.find(filter);
+  }
 
-export const findVehicleByVin = async (vin: string) => {
-  return await VehicleModel.findOne({ VIN: vin });
-}
+  static async createVehicle(vehicleData: any) {
+    return await VehicleModel.create(vehicleData);
+  }
 
-export const findVehicleById = async (id: string) => {
-  return await VehicleModel.findById(id);
+  static async findVehicleByVin(vin: string) {
+    return await VehicleModel.findOne({ VIN: vin });
+  }
+
+  static async findVehicleById(id: string) {
+    return await VehicleModel.findById(id);
+  }
 }

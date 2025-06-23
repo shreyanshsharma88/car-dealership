@@ -1,10 +1,8 @@
 import express from "express";
-import { signup, login, getUserProfile } from "../controllers/user.controller";
+import { Controllers } from "../controllers";
 
 export const userRoutes = express.Router();
 
-userRoutes.post("/signup", signup);
-userRoutes.post("/login", login);
-
-userRoutes.get("/user", getUserProfile);
-
+userRoutes.post("/signup", Controllers.User.signup);
+userRoutes.post("/login", Controllers.User.login);
+userRoutes.get("/user", Controllers.User.getUserProfile);

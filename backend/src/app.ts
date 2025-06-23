@@ -5,8 +5,8 @@ import helmet from "helmet";
 import connectDB from "./connection";
 import { ProtectedVehicleRoutes, VehicleRoutes } from "./routes/vehicle.routes";
 import { userRoutes } from "./routes/user.routes";
-import { authMiddleware } from "./middleware/auth.middleware";
-import { ProtectedInquiryRoutes } from "./routes/inquirt.routes";
+import { ProtectedInquiryRoutes } from "./routes/inquiry.routes";
+import { MiddleWares } from "./middleware/auth.middleware";
 dotenv.config();
 
 const app = express();
@@ -27,8 +27,8 @@ app.get("/health", (req, res) => {
 app.use("/api", VehicleRoutes);
 app.use("/api/auth", userRoutes);
 
-app.use("/api", authMiddleware, ProtectedVehicleRoutes);
-app.use("/api", authMiddleware, ProtectedInquiryRoutes);
+app.use("/api", MiddleWares.authMiddleware, ProtectedVehicleRoutes);
+app.use("/api", MiddleWares.authMiddleware, ProtectedInquiryRoutes);
 app.use((req, res) => {
   res.status(404).json({
     success: false,

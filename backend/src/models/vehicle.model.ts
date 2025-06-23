@@ -36,7 +36,7 @@ export const vehicleSchema = new mongoose.Schema(
         "Peugeot",
         "Porsche",
         "Renault",
-        "Toyota"
+        "Toyota",
       ],
     },
     model: {
@@ -131,14 +131,14 @@ export const vehicleSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "Please add a user ID"],
-    }
+    },
   },
   {
     timestamps: true,
   }
 );
 
-vehicleSchema.set('toJSON', {
+vehicleSchema.set("toJSON", {
   virtuals: true,
   versionKey: false,
   transform: (_, ret) => {
